@@ -8,10 +8,32 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
+  /* Ocean brand palette */
+  --color-ocean-50: #eef6ff;
+  --color-ocean-100: #d9eaff;
+  --color-ocean-200: #b9d7ff;
+  --color-ocean-300: #8cbcff;
+  --color-ocean-400: #5a9cff;
+  --color-ocean-500: #2e7dff;
+  --color-ocean-600: #1867f2;
+  --color-ocean-700: #1454c5;
+  --color-ocean-800: #113fa0;
+  --color-ocean-900: #0e307a;
+
+  /* Neutrals and tokens */
+  --color-surface: #ffffff;
+  --color-muted: #6b7280;
+
+  --radius-lg: 1rem;
+  --shadow-card: 0 8px 24px rgba(2, 6, 23, 0.08);
+  --shadow-card-hover: 0 12px 32px rgba(2, 6, 23, 0.12);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
+/* Dark mode */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -19,8 +41,52 @@
   }
 }
 
-body {
+/* Reset */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden; /* ✅ fix scroll horizontal */
+}
+
+/* Layout utilities */
+.container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.card {
+  @apply bg-white rounded-2xl shadow-sm;
+  box-shadow: var(--shadow-card);
+}
+.card-hover:hover { box-shadow: var(--shadow-card-hover); }
+
+.section-title { 
+  @apply text-2xl sm:text-3xl md:text-4xl font-bold text-center;
+}
+
+/* Smooth scroll + scrollbar */
+html { scroll-behavior: smooth; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: #c7d2fe; border-radius: 999px; }
+::-webkit-scrollbar-track { background: transparent; }
+
+/* Motion tokens */
+.elevate { box-shadow: var(--shadow-card-hover); }
+.blur-card { @apply backdrop-blur-sm bg-white/90; }
+
+/* Aesthetic: subtle grain overlay */
+.grain {
+  position: relative;
+}
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.08;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/ filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
+  background-size: 220px 220px;
+  z-index: -1; /* ✅ biar gak nutup konten */
 }

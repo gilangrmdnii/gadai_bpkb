@@ -1,0 +1,26 @@
+// function doPost(e) {
+//   const ss = SpreadsheetApp.openById("1WDH_gFMDH-G1-tmCL1mEqmA5RobSydL7mt6tkPPmumQ");
+//   const sheet = ss.getSheetByName("Sheet1"); // ganti sesuai nama tab
+
+//   let data = {};
+//   try {
+//     data = JSON.parse(e.postData.contents); // ambil JSON body
+//   } catch (err) {
+//     return ContentService.createTextOutput(
+//       JSON.stringify({ result: "error", message: "Invalid JSON" })
+//     ).setMimeType(ContentService.MimeType.JSON);
+//   }
+
+//   // isi ke baris baru
+//   sheet.appendRow([
+//     data.nama || "",
+//     data.hp || "",
+//     data.kendaraan || "",
+//     data.jumlah || "",
+//     new Date()
+//   ]);
+
+//   return ContentService.createTextOutput(
+//     JSON.stringify({ result: "success" })
+//   ).setMimeType(ContentService.MimeType.JSON);
+// }
