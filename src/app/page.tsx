@@ -6,6 +6,9 @@ import FAQ from "@/components/FAQ";
 import CTA from "@/components/CTA";
 import ApplyForm from "@/components/ApplyForm";
 import Footer from "@/components/Footer";
+import SupportedBy from "@/components/SupportedBy";
+import ProductGadai from "@/components/ProductGadai";
+import Testimonials from "@/components/Testimonials";
 
 export default function Home() {
   return (
@@ -13,10 +16,13 @@ export default function Home() {
       <Navbar />
       <Hero />
       <WhyUs />
+      <ApplyForm />
       <Features />
       <FAQ />
+      <ProductGadai />
+      <SupportedBy />
       {/* Apply & CTA */}
-      <ApplyForm />
+      <Testimonials />
       <CTA />
       <Footer />
     </main>

@@ -29,10 +29,10 @@ const Navbar = () => {
         {/* Logo pakai PNG */}
         <Link href="/" className="flex items-center gap-2">
           <Image 
-            src="/images/logo_landscape.png" 
+            src="/images/Logo_Garasi_1.3.png" 
             alt="GadaiBPKB Logo" 
-            width={40} 
-            height={40} 
+            width={100} 
+            height={100} 
             priority
             className="w-25 h-10 object-contain"
           />

@@ -1,25 +1,50 @@
 "use client";
 import { useState } from "react";
-import { User, Phone, Car, DollarSign } from "lucide-react";
-import { motion } from "framer-motion";
+import { User, Phone, Car, MapPin, Hash, Calendar, FileText } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function ApplyForm() {
-  const [form, setForm] = useState({ nama: "", hp: "", kendaraan: "", jumlah: "" });
+  const [form, setForm] = useState({
+    nama: "",
+    hp: "",
+    alamat: "",
+    wilayah: "",
+    kendaraan: "",
+    merk: "",
+    plat: "",
+    tahun: "",
+  });
   const [errors, setErrors] = useState<{ [k: string]: string }>({});
+  const [showModal, setShowModal] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async () => {
+  const validateForm = () => {
     const nextErrors: { [k: string]: string } = {};
     if (!form.nama.trim()) nextErrors.nama = "Nama wajib diisi";
-    if (!/^\+?\d{9,15}$/.test(form.hp.replace(/\s|-/g, ""))) nextErrors.hp = "Nomor HP tidak valid";
-    if (!form.kendaraan.trim()) nextErrors.kendaraan = "Jenis kendaraan wajib diisi";
-    if (!Number(form.jumlah) || Number(form.jumlah) <= 0) nextErrors.jumlah = "Jumlah harus lebih dari 0";
-    setErrors(nextErrors);
-    if (Object.keys(nextErrors).length > 0) return;
+    if (!/^\+?\d{9,15}$/.test(form.hp.replace(/\s|-/g, "")))
+      nextErrors.hp = "Nomor HP tidak valid";
+    if (!form.alamat.trim()) nextErrors.alamat = "Alamat wajib diisi";
+    if (!form.wilayah.trim()) nextErrors.wilayah = "Kelurahan/Kecamatan/Kota wajib diisi";
+    if (!form.kendaraan.trim()) nextErrors.kendaraan = "Jenis kendaraan wajib dipilih";
+    if (!form.merk.trim()) nextErrors.merk = "Merk & tipe wajib diisi";
+    if (!form.plat.trim()) nextErrors.plat = "Plat nomor wajib diisi";
+    if (!form.tahun.trim() || isNaN(Number(form.tahun)))
+      nextErrors.tahun = "Tahun kendaraan tidak valid";
 
+    setErrors(nextErrors);
+    return Object.keys(nextErrors).length === 0;
+  };
+
+  const handleSubmit = () => {
+    if (!validateForm()) return;
+    setShowModal(true); // tampilkan modal konfirmasi
+  };
+
+  const confirmSubmit = async () => {
+    setShowModal(false);
     try {
       // 1. Simpan ke Google Sheets
       const resp = await fetch("https://script.google.com/macros/s/XXXXXX/exec", {
@@ -32,11 +57,23 @@ export default function ApplyForm() {
 
       if (result.result === "success") {
         // 2. Kirim ke WhatsApp
-        const pesan = `Halo, saya ingin mengajukan pinjaman.\nNama: ${form.nama}\nHP: ${form.hp}\nKendaraan: ${form.kendaraan}\nJumlah: Rp ${form.jumlah}`;
-        window.open(`https://wa.me/628119274006?text=${encodeURIComponent(pesan)}`, "_blank");
+        const pesan = `Halo, saya ingin mengajukan pinjaman.\nNama: ${form.nama}\nHP: ${form.hp}\nAlamat: ${form.alamat}\nWilayah: ${form.wilayah}\nJenis Kendaraan: ${form.kendaraan}\nMerk & Type: ${form.merk}\nPlat Nomor: ${form.plat}\nTahun: ${form.tahun}`;
+        window.open(
+          `https://wa.me/628119274006?text=${encodeURIComponent(pesan)}`,
+          "_blank"
+        );
 
         // 3. Reset form
-        setForm({ nama: "", hp: "", kendaraan: "", jumlah: "" });
+        setForm({
+          nama: "",
+          hp: "",
+          alamat: "",
+          wilayah: "",
+          kendaraan: "",
+          merk: "",
+          plat: "",
+          tahun: "",
+        });
       } else {
         alert("⚠️ Gagal menyimpan data ke Google Sheets");
       }
@@ -46,19 +83,21 @@ export default function ApplyForm() {
     }
   };
 
-
   const fields = [
-    { key: "nama", label: "Nama Lengkap", placeholder: "Nama sesuai KTP", icon: <User className="w-6 h-6 text-ocean-600" /> },
-    { key: "hp", label: "No. HP / WhatsApp", placeholder: "08xxxxxxxxxx", icon: <Phone className="w-6 h-6 text-ocean-600" /> },
-    { key: "kendaraan", label: "Jenis Kendaraan", placeholder: "Mobil / Motor", icon: <Car className="w-6 h-6 text-ocean-600" /> },
-    { key: "jumlah", label: "Jumlah Pinjaman", placeholder: "contoh: 15000000", icon: <DollarSign className="w-6 h-6 text-ocean-600" /> },
+    { key: "nama", label: "Nama", placeholder: "Masukkan Nama Lengkap", icon: <User className="w-6 h-6 text-ocean-600" /> },
+    { key: "hp", label: "Nomor Handphone / WA", placeholder: "08xxxxxxxxxx", icon: <Phone className="w-6 h-6 text-ocean-600" /> },
+    { key: "alamat", label: "Alamat", placeholder: "Alamat lengkap", icon: <MapPin className="w-6 h-6 text-ocean-600" /> },
+    { key: "wilayah", label: "Kelurahan, Kecamatan, Kota", placeholder: "Contoh: Kelurahan X, Kec. Y, Jakarta", icon: <MapPin className="w-6 h-6 text-ocean-600" /> },
+    { key: "kendaraan", label: "Pilih Jenis Kendaraan", placeholder: "Mobil / Motor", icon: <Car className="w-6 h-6 text-ocean-600" /> },
+    { key: "merk", label: "Merk & Tipe Kendaraan", placeholder: "Contoh: Toyota Avanza", icon: <FileText className="w-6 h-6 text-ocean-600" /> },
+    { key: "plat", label: "Plat Nomor", placeholder: "Contoh: B 1234 ABC", icon: <Hash className="w-6 h-6 text-ocean-600" /> },
+    { key: "tahun", label: "Tahun Kendaraan", placeholder: "Contoh: 2019", icon: <Calendar className="w-6 h-6 text-ocean-600" /> },
   ];
 
   return (
     <section id="apply" className="relative py-24 bg-gradient-to-br from-ocean-50 to-white">
       <div className="container max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center px-6">
-
-        {/* Kolom Kiri - Ilustrasi */}
+        {/* Kolom Kiri */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -67,20 +106,19 @@ export default function ApplyForm() {
         >
           <div className="relative w-full max-w-md mx-auto">
             <img
-              src="/images/form.png"
+              src="/images/gadeterdekat.png"
               alt="Loan Illustration"
-              className="w-full drop-shadow-2xl"
+              className="w-full drop-shadow-2xl scale-110 -translate-x-4 transition-transform duration-500"
             />
-            {/* Decorative circle glow */}
+         
             <div className="absolute -top-10 -left-10 w-40 h-40 bg-ocean-200/40 rounded-full blur-3xl" />
             <div className="absolute bottom-0 -right-10 w-52 h-52 bg-ocean-400/20 rounded-full blur-3xl" />
           </div>
+
           <h4 className="mt-8 text-2xl font-semibold text-ocean-700 leading-snug max-w-sm">
             Dapatkan dana cepat dengan <br /> jaminan BPKB kendaraan Anda
           </h4>
-          <p className="mt-3 text-gray-600 max-w-sm">
-            Proses mudah, transparan, dan pencairan hanya dalam hitungan jam.
-          </p>
+          <p className="mt-3 text-gray-600 max-w-sm">Proses mudah, transparan, dan pencairan hanya dalam hitungan jam.</p>
         </motion.div>
 
         {/* Kolom Kanan - Form */}
@@ -90,12 +128,7 @@ export default function ApplyForm() {
           transition={{ duration: 0.7 }}
           className="bg-white/90 backdrop-blur-xl border border-ocean-100 shadow-2xl rounded-3xl p-10 relative overflow-hidden"
         >
-          {/* Gradient Accent */}
-          <div className="absolute -top-24 -right-24 w-80 h-80 bg-gradient-to-br from-ocean-300/20 to-ocean-500/10 rounded-full blur-3xl" />
-
-          <h3 className="text-3xl font-bold text-ocean-700 mb-8 relative z-10">
-            Form Pengajuan Pinjaman
-          </h3>
+          <h3 className="text-3xl font-bold text-ocean-700 mb-8 relative z-10">Form Pengajuan Pinjaman</h3>
 
           <div className="grid gap-5 relative z-10">
             {fields.map((f) => (
@@ -103,7 +136,7 @@ export default function ApplyForm() {
                 <label className="flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-4 py-3 shadow-sm focus-within:ring-2 focus-within:ring-ocean-500 transition">
                   {f.icon}
                   <input
-                    type={f.key === "jumlah" ? "number" : "text"}
+                    type={f.key === "tahun" ? "number" : "text"}
                     name={f.key}
                     placeholder={f.placeholder}
                     value={(form as any)[f.key]}
@@ -124,6 +157,51 @@ export default function ApplyForm() {
           </button>
         </motion.div>
       </div>
+
+      {/* 🔥 Modal Konfirmasi */}
+      <AnimatePresence>
+        {showModal && (
+          <motion.div
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="bg-white rounded-2xl shadow-xl max-w-md w-full p-8 relative"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+            >
+              <h4 className="text-xl font-bold text-ocean-700 mb-4">Konfirmasi Data</h4>
+              <ul className="space-y-2 text-gray-700 mb-6">
+                <li><strong>Nama:</strong> {form.nama}</li>
+                <li><strong>No. HP:</strong> {form.hp}</li>
+                <li><strong>Alamat:</strong> {form.alamat}</li>
+                <li><strong>Wilayah:</strong> {form.wilayah}</li>
+                <li><strong>Jenis Kendaraan:</strong> {form.kendaraan}</li>
+                <li><strong>Merk & Tipe:</strong> {form.merk}</li>
+                <li><strong>Plat Nomor:</strong> {form.plat}</li>
+                <li><strong>Tahun:</strong> {form.tahun}</li>
+              </ul>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="flex-1 py-3 rounded-lg border text-gray-600 border-gray-300 hover:bg-gray-100 transition"
+                >
+                  ✏️ Koreksi
+                </button>
+                <button
+                  onClick={confirmSubmit}
+                  className="flex-1 py-3 rounded-lg bg-ocean-600 text-white hover:bg-ocean-700 transition"
+                >
+                  ✅ Konfirmasi & Kirim
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

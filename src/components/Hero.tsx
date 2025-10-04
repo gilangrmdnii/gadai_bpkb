@@ -1,4 +1,4 @@
-"use client"; 
+"use client";
 import { motion } from "framer-motion";
 
 const Hero = () => {
@@ -9,15 +9,32 @@ const Hero = () => {
   ];
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-r from-ocean-600 to-ocean-800 text-white">
-      {/* Background Image */}
-      <div className="absolute inset-0 bg-[url('/images/header.png')] bg-cover bg-center opacity-50"></div>
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-ocean-700 via-ocean-800 to-ocean-900 text-white">
+      {/* Background Effects */}
+      <div className="absolute inset-0">
+        {/* Lapisan cahaya lembut */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-ocean-400/30 rounded-full blur-[160px]"></div>
+        <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-blue-300/20 rounded-full blur-[140px]"></div>
 
+        {/* Shape dekoratif */}
+        <svg
+          className="absolute top-0 left-0 w-full opacity-[0.07]"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1440 320"
+        >
+          <path
+            fill="white"
+            d="M0,96L60,128C120,160,240,224,360,229.3C480,235,600,181,720,144C840,107,960,85,1080,117.3C1200,149,1320,235,1380,277.3L1440,320L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"
+          ></path>
+        </svg>
+      </div>
+
+      {/* Content */}
       <div className="relative z-10 text-center px-6 max-w-4xl">
         {/* Title */}
-        <motion.h2 
-          initial={{ y: 40, opacity: 0 }} 
-          animate={{ y: 0, opacity: 1 }} 
+        <motion.h2
+          initial={{ y: 40, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8 }}
           className="text-5xl md:text-6xl font-extrabold leading-tight"
         >
@@ -25,48 +42,51 @@ const Hero = () => {
         </motion.h2>
 
         {/* Subtitle */}
-        <motion.p 
-          initial={{ y: 40, opacity: 0 }} 
-          animate={{ y: 0, opacity: 1 }} 
+        <motion.p
+          initial={{ y: 40, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 1 }}
-          className="mt-4 text-lg text-gray-100"
+          className="mt-4 text-lg text-blue-100 max-w-2xl mx-auto"
         >
-          Proses mudah, bunga ringan, cair hanya dalam hitungan jam. Solusi finansial terpercaya untuk kebutuhan Anda.
+          Proses mudah, bunga ringan, cair hanya dalam hitungan jam.  
+          Solusi finansial terpercaya untuk kebutuhan Anda.
         </motion.p>
 
         {/* CTA */}
-        <motion.div 
-          initial={{ y: 40, opacity: 0 }} 
-          animate={{ y: 0, opacity: 1 }} 
+        <motion.div
+          initial={{ y: 40, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 1.2 }}
           className="mt-8 flex flex-col sm:flex-row justify-center gap-4"
         >
           <a
             href="#apply"
-            className="bg-white text-ocean-700 px-6 py-3 rounded-xl font-semibold shadow hover:bg-gray-100 transition"
+            className="bg-white text-ocean-700 px-8 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl hover:scale-[1.03] transition-all"
           >
             Ajukan Sekarang
           </a>
           <a
             href="#layanan"
-            className="border border-white/70 px-6 py-3 rounded-xl font-semibold hover:bg-white/10 transition"
+            className="border border-white/70 px-8 py-3 rounded-xl font-semibold hover:bg-white/10 hover:scale-[1.03] transition-all"
           >
             Lihat Layanan
           </a>
         </motion.div>
 
-        {/* Cards Highlight */}
-        <div className="mt-14 grid sm:grid-cols-3 gap-6 text-left">
+        {/* Feature Cards */}
+        <div className="mt-16 grid sm:grid-cols-3 gap-6 text-left">
           {items.map((item, i) => (
-            <motion.div 
+            <motion.div
               key={i}
-              initial={{ opacity: 0, y: 30 }} 
-              animate={{ opacity: 1, y: 0 }} 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: i * 0.2 }}
-              className="bg-white/10 backdrop-blur-md rounded-xl p-6 shadow-lg hover:bg-white/20 transition"
+              className="bg-white/10 border border-white/10 backdrop-blur-md rounded-2xl p-6 shadow-md hover:bg-white/15 transition-all"
             >
               <h4 className="text-lg font-semibold text-white">{item.title}</h4>
-              <p className="mt-2 text-gray-200 text-sm">{item.desc}</p>
+              <p className="mt-2 text-blue-100 text-sm leading-relaxed">
+                {item.desc}
+              </p>
             </motion.div>
           ))}
         </div>
