@@ -29,16 +29,14 @@ const Navbar = () => {
         {/* Logo pakai PNG */}
         <Link href="/" className="flex items-center gap-2">
           <Image 
-            src="/images/Logo_Garasi_1.3.png" 
+            src="/images/garasi_logo__1_.png" 
             alt="GadaiBPKB Logo" 
-            width={100} 
-            height={100} 
+            width={150} 
+            height={150} 
             priority
-            className="w-25 h-10 object-contain"
+            className="w-55 h-20 object-contain"
           />
-          {/* <span className="hidden md:inline-block text-xl font-extrabold text-ocean-700">
-            GadaiBPKB
-          </span> */}
+      
         </Link>
 
         {/* Desktop Nav */}

@@ -7,24 +7,31 @@ export default function ProductGadai() {
   const products = [
     {
       bulan: 12,
-      pinjaman: "Rp 25.000.000",
+      pinjaman: "Rp 100.000.000",
       cicilan: "Rp 2.300.000 / bulan",
       bunga: "1.6%",
       highlight: false,
     },
     {
       bulan: 24,
-      pinjaman: "Rp 50.000.000",
+      pinjaman: "Rp 100.000.000",
       cicilan: "Rp 2.850.000 / bulan",
       bunga: "1.4%",
-      highlight: true,
+      highlight: false,
+    },
+      {
+      bulan: 36,
+      pinjaman: "Rp 100.000.000",
+      cicilan: "Rp 2.850.000 / bulan",
+      bunga: "1.4%",
+      highlight: false,
     },
     {
       bulan: 48,
       pinjaman: "Rp 100.000.000",
       cicilan: "Rp 3.400.000 / bulan",
       bunga: "1.2%",
-      highlight: false,
+      highlight: true,
     },
   ];
 
@@ -86,7 +93,7 @@ export default function ProductGadai() {
         </motion.div>
 
         {/* Cards */}
-        <div className="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-4 gap-4 max-w-6xl mx-auto">
           {products.map((p, i) => (
             <motion.div
               key={i}
@@ -139,13 +146,13 @@ export default function ProductGadai() {
 
               <div className="space-y-3 text-base font-medium">
                 <div className="flex justify-center items-center gap-2">
-                  <CreditCard className="w-5 h-5" />
+               
                   <span>
                     Cicilan: <strong>{p.cicilan}</strong>
                   </span>
                 </div>
                 <div className="flex justify-center items-center gap-2">
-                  <DollarSign className="w-5 h-5" />
+                
                   <span>
                     Pinjaman hingga <strong>{p.pinjaman}</strong>
                   </span>
