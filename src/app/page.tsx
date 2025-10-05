@@ -10,6 +10,7 @@ import SupportedBy from "@/components/SupportedBy";
 import ProductGadai from "@/components/ProductGadai";
 import Testimonials from "@/components/Testimonials";
 import FloatingWhatsApp from "@/components/FloatingWhatsApp";
+import ScrollToTop from "@/components/ScrollToTop";
 
 export default function Home() {
   return (
@@ -25,9 +26,8 @@ export default function Home() {
       <Testimonials />
       <CTA />
       <Footer />
-
-      {/* 💬 Floating WhatsApp Button */}
       <FloatingWhatsApp />
+      <ScrollToTop />
     </main>
   );
 }
