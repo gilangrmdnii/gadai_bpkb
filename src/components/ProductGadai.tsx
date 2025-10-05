@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { BadgeCheck, Calendar, CreditCard, DollarSign, ShieldCheck, Car, HeartPulse } from "lucide-react";
+import { BadgeCheck, Calendar, Car, ShieldCheck, HeartPulse } from "lucide-react";
 
 export default function ProductGadai() {
   const products = [
@@ -19,7 +19,7 @@ export default function ProductGadai() {
       bunga: "1.4%",
       highlight: false,
     },
-      {
+    {
       bulan: 36,
       pinjaman: "Rp 100.000.000",
       cicilan: "Rp 2.850.000 / bulan",
@@ -54,13 +54,19 @@ export default function ProductGadai() {
     },
   ];
 
+  const handleWhatsAppClick = (product: any) => {
+    const nomor = "628119274006"; 
+    const pesan = `Halo, saya tertarik dengan produk gadai tenor ${product.bulan} bulan (pinjaman ${product.pinjaman}, cicilan ${product.cicilan}). Mohon info lebih lanjut.`;
+    const url = `https://wa.me/${nomor}?text=${encodeURIComponent(pesan)}`;
+    window.open(url, "_blank");
+  };
+
   return (
     <section
       id="produk"
       className="relative py-24 bg-gradient-to-br from-ocean-50 via-white to-ocean-100 overflow-hidden"
     >
       <div className="container mx-auto px-6 text-center">
-        {/* Title */}
         <motion.h2
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -69,6 +75,7 @@ export default function ProductGadai() {
         >
           Simulasi Produk Gadai BPKB
         </motion.h2>
+
         <p className="text-gray-600 mb-8 max-w-2xl mx-auto text-lg">
           Pilih tenor dan jumlah pinjaman sesuai kebutuhan Anda.  
           Proses mudah, transparan, dan terpercaya.
@@ -107,7 +114,6 @@ export default function ProductGadai() {
                     : "bg-white/70 border-ocean-100 text-gray-800 hover:shadow-ocean-200/40"
                 }`}
             >
-              {/* Highlight Badge */}
               {p.highlight && (
                 <motion.span
                   initial={{ scale: 0 }}
@@ -118,7 +124,6 @@ export default function ProductGadai() {
                 </motion.span>
               )}
 
-              {/* Icon */}
               <div className="mb-6 flex justify-center">
                 <div
                   className={`w-16 h-16 rounded-2xl flex items-center justify-center shadow-inner
@@ -132,7 +137,6 @@ export default function ProductGadai() {
                 </div>
               </div>
 
-              {/* Content */}
               <h3 className="text-2xl font-semibold mb-2">
                 Tenor {p.bulan} Bulan
               </h3>
@@ -145,23 +149,18 @@ export default function ProductGadai() {
               </p>
 
               <div className="space-y-3 text-base font-medium">
-                <div className="flex justify-center items-center gap-2">
-               
-                  <span>
-                    Cicilan: <strong>{p.cicilan}</strong>
-                  </span>
+                <div>
+                  Cicilan: <strong>{p.cicilan}</strong>
                 </div>
-                <div className="flex justify-center items-center gap-2">
-                
-                  <span>
-                    Pinjaman hingga <strong>{p.pinjaman}</strong>
-                  </span>
+                <div>
+                  Pinjaman hingga <strong>{p.pinjaman}</strong>
                 </div>
               </div>
 
-              {/* Button */}
+              {/* Button WhatsApp */}
               <motion.button
                 whileHover={{ scale: 1.05 }}
+                onClick={() => handleWhatsAppClick(p)}
                 className={`mt-10 w-full py-3 rounded-xl font-semibold transition-all duration-300 shadow-md 
                   ${
                     p.highlight
@@ -176,7 +175,7 @@ export default function ProductGadai() {
         </div>
       </div>
 
-      {/* Decorative blur backgrounds */}
+      {/* Decorative blur */}
       <div className="absolute -top-20 left-0 w-80 h-80 bg-ocean-300/20 rounded-full blur-3xl -z-10" />
       <div className="absolute bottom-0 right-0 w-[30rem] h-[30rem] bg-ocean-400/30 rounded-full blur-3xl -z-10" />
     </section>

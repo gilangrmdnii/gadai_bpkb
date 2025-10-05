@@ -1,6 +1,11 @@
 @import "tailwindcss";
 
+/* =======================================
+   ✅ FORCE LIGHT MODE & DEFINE BASE COLORS
+   ======================================= */
 :root {
+  color-scheme: light;
+  /* Paksa browser tetap light mode */
   --background: #ffffff;
   --foreground: #171717;
 }
@@ -33,25 +38,38 @@
   --font-mono: var(--font-geist-mono);
 }
 
-/* Dark mode */
+/* =======================================
+   🚫 REMOVE DARK MODE OVERRIDES
+   (tidak ada lagi perubahan warna otomatis)
+   ======================================= */
+/* Dihapus: 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
 }
+*/
 
-/* Reset */
-html, body {
+/* =======================================
+   🧩 RESET & GLOBAL STYLE
+   ======================================= */
+html,
+body {
   height: 100%;
   margin: 0;
   padding: 0;
   background: var(--background);
   color: var(--foreground);
-  overflow-x: hidden; /* ✅ fix scroll horizontal */
+  color-scheme: light;
+  /* Pastikan tetap terang */
+  overflow-x: hidden;
+  /* ✅ fix scroll horizontal */
 }
 
-/* Layout utilities */
+/* =======================================
+   📐 LAYOUT UTILITIES
+   ======================================= */
 .container {
   @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
 }
@@ -60,26 +78,61 @@ html, body {
   @apply bg-white rounded-2xl shadow-sm;
   box-shadow: var(--shadow-card);
 }
-.card-hover:hover { box-shadow: var(--shadow-card-hover); }
 
-.section-title { 
+.card-hover:hover {
+  box-shadow: var(--shadow-card-hover);
+}
+
+.section-title {
   @apply text-2xl sm:text-3xl md:text-4xl font-bold text-center;
 }
 
-/* Smooth scroll + scrollbar */
-html { scroll-behavior: smooth; }
-::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-thumb { background: #c7d2fe; border-radius: 999px; }
-::-webkit-scrollbar-track { background: transparent; }
+/* =======================================
+   🧭 SCROLL & SMOOTHNESS
+   ======================================= */
+html {
+  scroll-behavior: smooth;
+}
 
-/* Motion tokens */
-.elevate { box-shadow: var(--shadow-card-hover); }
-.blur-card { @apply backdrop-blur-sm bg-white/90; }
+/* ✅ Sembunyikan scrollbar di layar kecil */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
 
-/* Aesthetic: subtle grain overlay */
+@media (max-width: 768px) {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c7d2fe;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* =======================================
+   🌫️ MOTION & VISUAL TOKENS
+   ======================================= */
+.elevate {
+  box-shadow: var(--shadow-card-hover);
+}
+
+.blur-card {
+  @apply backdrop-blur-sm bg-white/90;
+}
+
+/* =======================================
+   ✨ AESTHETIC: GRAIN OVERLAY
+   ======================================= */
 .grain {
   position: relative;
 }
+
 .grain::after {
   content: "";
   position: absolute;
@@ -88,5 +141,6 @@ html { scroll-behavior: smooth; }
   opacity: 0.08;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/ filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
   background-size: 220px 220px;
-  z-index: -1; /* ✅ biar gak nutup konten */
+  z-index: -1;
+  /* ✅ biar gak nutup konten */
 }

@@ -64,7 +64,7 @@ const Hero = () => {
               Ajukan Sekarang
             </a>
             <a
-              href="#layanan"
+              href="#produk"
               className="border border-white/70 px-8 py-3 rounded-xl font-semibold hover:bg-white/10 hover:scale-[1.03] transition-all"
             >
               Lihat Layanan

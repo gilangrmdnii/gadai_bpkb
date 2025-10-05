@@ -11,17 +11,19 @@ const Footer = () => {
         </div>
         <div>
           <h5 className="font-semibold text-white mb-3">Navigasi</h5>
-          <ul className="space-y-2 text-sm">
+          <ul className="space-y-2 text-sm">.
             <li><a href="#fitur" className="hover:text-white">Fitur</a></li>
             <li><a href="#keunggulan" className="hover:text-white">Keunggulan</a></li>
             <li><a href="#apply" className="hover:text-white">Ajukan</a></li>
+            <li><a href="#testimoni" className="hover:text-white">Testimoni</a></li>
+            <li><a href="#fq" className="hover:text-white">FAQ</a></li>
+            
           </ul>
         </div>
         <div>
           <h5 className="font-semibold text-white mb-3">Kontak</h5>
           <p className="text-sm">📍 Jakarta, Indonesia</p>
-          <p className="text-sm">📞 +62 812-3456-7890</p>
-          <p className="text-sm">✉️ info@gadaibpkb.co.id</p>
+          <p className="text-sm">📞 +62-8119-274-006</p>
         </div>
       </div>
       <div className="text-center text-gray-400 text-sm mt-10">

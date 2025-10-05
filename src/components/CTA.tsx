@@ -39,7 +39,7 @@ const CTA = () => {
           className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <a
-            href="https://wa.me/6281234567890"
+            href="https://wa.me/628119274006"
             target="_blank"
             className="inline-flex items-center gap-2 bg-white text-ocean-700 px-7 py-3 rounded-xl font-semibold shadow hover:bg-gray-100 transition"
           >

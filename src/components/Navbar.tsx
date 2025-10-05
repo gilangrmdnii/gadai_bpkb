@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { Menu, X } from "lucide-react";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -15,6 +16,16 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const menuItems = [
+    { label: "Beranda", href: "#beranda" },
+    { label: "Keunggulan", href: "#keunggulan" },
+    { label: "Ajukan", href: "#apply" },
+    { label: "Fitur", href: "#fitur" },
+    { label: "Testimoni", href: "#testimoni" },
+    { label: "FAQ", href: "#faq" },
+    { label: "Kontak", href: "#kontak" },
+  ];
+
   return (
     <motion.nav
       initial={{ y: -80, opacity: 0 }}
@@ -24,30 +35,33 @@ const Navbar = () => {
         ${scrolled ? "bg-white/95 shadow-md" : "bg-white/70 shadow-sm"} 
         backdrop-blur-xl border-b border-black/5 transition-all duration-300`}
     >
-      <div className={`container flex items-center justify-between ${scrolled ? "py-3" : "py-4"}`}>
-        
-        {/* Logo pakai PNG */}
-        <Link href="/" className="flex items-center gap-2">
-          <Image 
-            src="/images/garasi_logo__1_.png" 
-            alt="GadaiBPKB Logo" 
-            width={150} 
-            height={150} 
-            priority
-            className="w-55 h-20 object-contain"
-          />
-      
+      <div
+        className={`container flex items-center justify-between ${scrolled ? "py-2.5" : "py-3.5"
+          }`}
+      >
+        {/* Logo - Diperbesar dengan tinggi tetap */}
+        <Link href="/" className="flex items-center">
+          <div className="relative w-[200px] h-[50px] md:w-[220px] md:h-[55px]">
+            <Image
+              src="/images/174707070.png"
+              alt="GadaiBPKB Logo"
+              fill
+              priority
+              className="object-contain"
+              sizes="(max-width: 768px) 200px, 220px"
+            />
+          </div>
         </Link>
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-700">
-          {["Keunggulan", "Fitur", "FAQ", "Kontak"].map((item) => (
-            <Link 
-              key={item} 
-              href={`#${item.toLowerCase()}`} 
+          {menuItems.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
               className="relative hover:text-ocean-700 transition group"
             >
-              {item}
+              {item.label}
               <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-ocean-600 transition-all duration-300 group-hover:w-full" />
             </Link>
           ))}
@@ -55,74 +69,51 @@ const Navbar = () => {
 
         {/* CTA & Mobile Button */}
         <div className="flex items-center gap-3">
-          <Link 
-            href="#apply" 
-            className="hidden sm:inline-flex bg-ocean-600 text-white px-5 py-2 rounded-xl hover:bg-ocean-700 transition shadow-md font-medium"
+          <Link
+            href="#apply"
+            className="hidden sm:inline-flex bg-ocean-600 text-white px-5 py-2 rounded-lg hover:bg-ocean-700 transition shadow-md font-medium text-sm"
           >
             Ajukan Sekarang
           </Link>
 
-          {/* Hamburger Button */}
+          {/* Mobile Button */}
           <button
             aria-label="Toggle menu"
             onClick={() => setOpen(!open)}
-            className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-xl bg-white/70 border border-black/5 relative"
+            className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg bg-white/80 border border-black/10 shadow-sm hover:bg-white transition"
           >
-            <motion.div
-              animate={open ? "open" : "closed"}
-              className="w-5 h-5 relative"
-            >
-              <motion.span
-                variants={{
-                  closed: { rotate: 0, y: -6 },
-                  open: { rotate: 45, y: 0 },
-                }}
-                transition={{ duration: 0.3 }}
-                className="absolute left-0 w-5 h-0.5 bg-gray-800"
-              />
-              <motion.span
-                variants={{
-                  closed: { opacity: 1 },
-                  open: { opacity: 0 },
-                }}
-                transition={{ duration: 0.3 }}
-                className="absolute top-2 w-5 h-0.5 bg-gray-800"
-              />
-              <motion.span
-                variants={{
-                  closed: { rotate: 0, y: 6 },
-                  open: { rotate: -45, y: 0 },
-                }}
-                transition={{ duration: 0.3 }}
-                className="absolute left-0 w-5 h-0.5 bg-gray-800"
-              />
-            </motion.div>
+            {open ? (
+              <X className="w-6 h-6 text-gray-800" />
+            ) : (
+              <Menu className="w-6 h-6 text-gray-800" />
+            )}
           </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {open && (
-        <motion.div 
-          initial={{ opacity: 0, y: -8 }} 
-          animate={{ opacity: 1, y: 0 }} 
+        <motion.div
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
           className="md:hidden border-t border-black/5 bg-white/95 backdrop-blur-xl"
         >
           <div className="container py-4 flex flex-col gap-3 text-gray-800">
-            {["Keunggulan", "Fitur", "FAQ", "Kontak"].map((item) => (
-              <Link 
-                key={item} 
-                href={`#${item.toLowerCase()}`} 
-                onClick={() => setOpen(false)} 
-                className="py-2 hover:text-ocean-700 transition"
+            {menuItems.map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                onClick={() => setOpen(false)}
+                className="py-2 hover:text-ocean-700 transition text-sm"
               >
-                {item}
+                {item.label}
               </Link>
             ))}
-            <Link 
-              href="#apply" 
-              onClick={() => setOpen(false)} 
-              className="mt-2 inline-flex bg-ocean-600 text-white px-5 py-2 rounded-xl hover:bg-ocean-700 transition shadow-md font-medium"
+            <Link
+              href="#apply"
+              onClick={() => setOpen(false)}
+              className="mt-2 inline-flex bg-ocean-600 text-white px-5 py-2 rounded-lg hover:bg-ocean-700 transition shadow-md font-medium text-sm"
             >
               Ajukan Sekarang
             </Link>
