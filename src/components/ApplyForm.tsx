@@ -45,12 +45,18 @@ export default function ApplyForm() {
 
   const tahunKendaraanOptions = useMemo(() => {
     const currentYear = new Date().getFullYear();
+    const jenis = form.jenisKendaraan;
+
+    let startYear = 2005; 
+    if (jenis === "Mobil") startYear = 2006;
+    else if (jenis === "Motor") startYear = 2016;
+
     const years = [{ value: "", label: "Pilih Tahun Kendaraan" }];
-    for (let y = currentYear; y >= 2005; y--) {
+    for (let y = currentYear; y >= startYear; y--) {
       years.push({ value: y.toString(), label: y.toString() });
     }
     return years;
-  }, []);
+  }, [form.jenisKendaraan]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -95,7 +101,7 @@ export default function ApplyForm() {
         tahunKendaraan: form.tahunKendaraan,
       };
 
-      const response = await fetch("/api/submit", {
+      const response = await fetch("/api/submit.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -103,23 +109,22 @@ export default function ApplyForm() {
 
       const result = await response.json();
 
-      if (result.result === "success") {
+      // tampilkan popup sederhana dari response server
+      alert(result.message || "Terjadi kesalahan");
+
+      if (result.success) {
         if (!form.noHP.trim()) {
           alert("❌ Nomor WA wajib diisi!");
           return;
         }
 
-        // Hapus semua non-digit
         let nomorWA = form.noHP.replace(/\D/g, "");
-
-        // Tambahkan prefix 62
         if (nomorWA.startsWith("0")) {
           nomorWA = "62" + nomorWA.substring(1);
         } else if (!nomorWA.startsWith("62")) {
           nomorWA = "62" + nomorWA;
         }
 
-        // Validasi panjang nomor WA (minimal 10 digit setelah kode negara)
         const panjangNomor = nomorWA.length;
         if (panjangNomor < 11 || panjangNomor > 15) {
           alert("❌ Nomor WA tidak valid. Pastikan minimal 10 digit setelah kode negara.");
@@ -130,6 +135,7 @@ export default function ApplyForm() {
 
         window.open(`https://wa.me/${nomorWA}?text=${encodeURIComponent(pesan)}`, "_blank");
 
+        // Reset form kalau sukses
         setForm({
           namaLengkap: "",
           noHP: "",
@@ -140,9 +146,8 @@ export default function ApplyForm() {
           tipeKendaraan: "",
           tahunKendaraan: "",
         });
-      } else {
-        throw new Error(result.message || "Gagal menyimpan data");
       }
+
     } catch (err) {
       console.error("Submission error:", err);
       alert("❌ Gagal mengirim data. Periksa koneksi internet Anda.");
@@ -151,39 +156,130 @@ export default function ApplyForm() {
 
   return (
     <section id="apply" className="relative py-24 bg-gradient-to-br from-ocean-50 to-white">
-      <div className="container max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center justify-items-center px-4 sm:px-6">
-        {/* Kolom kiri */}
-        <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.7 }} className="flex flex-col items-center lg:items-start text-center lg:text-left">
-          <div className="relative w-full max-w-md mx-auto">
-            <img src="/images/asset_gadai.png" alt="form pengajuan gadai bpkb" className="w-full drop-shadow-2xl scale-110" />
-          </div>
-          <h4 className="mt-8 text-2xl font-semibold text-ocean-700 leading-snug max-w-sm">
-            Dapatkan dana cepat dengan jaminan BPKB kendaraan Anda
-          </h4>
-          <p className="mt-3 text-gray-600 max-w-sm">Proses mudah, transparan, dan pencairan hanya dalam hitungan jam.</p>
-        </motion.div>
+      <div className="container mx-auto max-w-6xl px-4 sm:px-6 py-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center justify-items-center">
+          {/* Kolom kiri */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7 }}
+            className="flex flex-col items-center lg:items-start text-center lg:text-left"
+          >
+            <div className="relative w-full max-w-[300px] sm:max-w-md mx-auto">
+              <img
+                src="/images/asset_gadai.png"
+                alt="form pengajuan gadai bpkb"
+                className="w-full drop-shadow-2xl"
+              />
+            </div>
+            <h4 className="mt-8 text-xl sm:text-2xl font-semibold text-ocean-700 leading-snug max-w-sm">
+              Dapatkan dana cepat dengan jaminan BPKB kendaraan Anda
+            </h4>
+            <p className="mt-3 text-gray-600 max-w-sm">
+              Proses mudah, transparan, dan pencairan hanya dalam hitungan jam.
+            </p>
+          </motion.div>
 
-        {/* Kolom kanan */}
-        <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.7 }} className="bg-white/90 backdrop-blur-xl border border-ocean-100 shadow-2xl rounded-3xl p-10">
-          <h3 className="text-3xl font-bold text-ocean-700 mb-8">Form Pengajuan Pinjaman</h3>
+          {/* Kolom kanan */}
+          {/* Kolom kanan */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7 }}
+            className="w-full max-w-md bg-white/95 backdrop-blur-xl border border-ocean-100 shadow-2xl rounded-3xl p-6 sm:p-8 lg:p-10 mx-auto"
+          >
+            <h3 className="text-2xl sm:text-3xl font-bold text-ocean-700 mb-6 sm:mb-8 text-center lg:text-left">
+              Form Pengajuan Pinjaman
+            </h3>
 
-          <div className="grid gap-5">
-            <InputField icon={<User />} name="namaLengkap" placeholder="Nama Lengkap" value={form.namaLengkap} onChange={handleChange} error={errors.namaLengkap} />
-            <InputField icon={<Phone />} name="noHP" placeholder="No Handphone / Whatsapp" value={form.noHP} onChange={handleChange} error={errors.noHP} />
-            <InputField icon={<MapPin />} name="alamat" placeholder="Alamat lengkap (tanpa kota)" value={form.alamat} onChange={handleChange} error={errors.alamat} />
-            <SelectField icon={<MapPin />} name="provinsi" options={[{ value: "", label: "Pilih Provinsi" }, ...provinsiList.map(p => ({ value: p.id, label: p.name }))]} value={form.provinsi} onChange={handleChange} error={errors.provinsi} />
-            <SelectField icon={<MapPin />} name="kota" options={[{ value: "", label: "Pilih Kota" }, ...kotaList.map(k => ({ value: k.id, label: k.name }))]} value={form.kota} onChange={handleChange} error={errors.kota} />
-            <SelectField icon={<Car />} name="jenisKendaraan" options={jenisKendaraanOptions} value={form.jenisKendaraan} onChange={handleChange} error={errors.jenisKendaraan} />
-            <InputField icon={<FileText />} name="tipeKendaraan" placeholder="Tipe Kendaraan" value={form.tipeKendaraan} onChange={handleChange} error={errors.tipeKendaraan} />
-            <SelectField icon={<Calendar />} name="tahunKendaraan" options={tahunKendaraanOptions} value={form.tahunKendaraan} onChange={handleChange} error={errors.tahunKendaraan} />
-          </div>
+            {/* Grid form input */}
+            <div className="grid gap-5 w-full">
+              <InputField
+                icon={<User />}
+                name="namaLengkap"
+                placeholder="Nama Lengkap"
+                value={form.namaLengkap}
+                onChange={handleChange}
+                error={errors.namaLengkap}
+              />
+              <InputField
+                icon={<Phone />}
+                name="noHP"
+                placeholder="No Handphone / Whatsapp"
+                value={form.noHP}
+                onChange={handleChange}
+                error={errors.noHP}
+              />
+              <InputField
+                icon={<MapPin />}
+                name="alamat"
+                placeholder="Alamat lengkap (tanpa kota)"
+                value={form.alamat}
+                onChange={handleChange}
+                error={errors.alamat}
+              />
+              <SelectField
+                icon={<MapPin />}
+                name="provinsi"
+                options={[
+                  { value: "", label: "Pilih Provinsi" },
+                  ...provinsiList.map((p) => ({ value: p.id, label: p.name })),
+                ]}
+                value={form.provinsi}
+                onChange={handleChange}
+                error={errors.provinsi}
+              />
+              <SelectField
+                icon={<MapPin />}
+                name="kota"
+                options={[
+                  { value: "", label: "Pilih Kota" },
+                  ...kotaList.map((k) => ({ value: k.id, label: k.name })),
+                ]}
+                value={form.kota}
+                onChange={handleChange}
+                error={errors.kota}
+              />
+              <SelectField
+                icon={<Car />}
+                name="jenisKendaraan"
+                options={jenisKendaraanOptions}
+                value={form.jenisKendaraan}
+                onChange={handleChange}
+                error={errors.jenisKendaraan}
+              />
+              <InputField
+                icon={<FileText />}
+                name="tipeKendaraan"
+                placeholder="Tipe Kendaraan"
+                value={form.tipeKendaraan}
+                onChange={handleChange}
+                error={errors.tipeKendaraan}
+              />
+              <SelectField
+                icon={<Calendar />}
+                name="tahunKendaraan"
+                options={tahunKendaraanOptions}
+                value={form.tahunKendaraan}
+                onChange={handleChange}
+                error={errors.tahunKendaraan}
+              />
+            </div>
 
-          <button onClick={handleSubmit} className="mt-8 w-full bg-gradient-to-r from-ocean-600 to-ocean-700 text-white py-4 rounded-xl font-semibold shadow-md hover:scale-[1.02] transition">
-            🚀 Ajukan
-          </button>
-          <p className="text-gray-400 text-center mt-2">*Kerahasiaan data Anda terjamin*</p>
-        </motion.div>
+            {/* Tombol Submit */}
+            <button
+              onClick={handleSubmit}
+              className="mt-8 w-full bg-gradient-to-r from-ocean-600 to-ocean-700 text-white py-4 rounded-xl font-semibold shadow-md hover:scale-[1.02] transition"
+            >
+              🚀 Ajukan
+            </button>
+            <p className="text-gray-400 text-center mt-2">
+              *Kerahasiaan data Anda terjamin*
+            </p>
+          </motion.div>
+        </div>
       </div>
+
 
       {/* Modal Konfirmasi */}
       <AnimatePresence>

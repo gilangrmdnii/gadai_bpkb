@@ -8,29 +8,29 @@ export default function ProductGadai() {
     {
       bulan: 12,
       pinjaman: "Rp 100.000.000",
-      cicilan: "Rp 2.300.000 / bulan",
-      bunga: "1.6%",
+      cicilan: "Rp 11.630.000 / bulan",
+      bunga: "9.2%",
       highlight: false,
     },
     {
       bulan: 24,
       pinjaman: "Rp 100.000.000",
-      cicilan: "Rp 2.850.000 / bulan",
-      bunga: "1.4%",
+      cicilan: "Rp 5.910.000 / bulan",
+      bunga: "9.1%",
       highlight: false,
     },
     {
       bulan: 36,
       pinjaman: "Rp 100.000.000",
-      cicilan: "Rp 2.850.000 / bulan",
-      bunga: "1.4%",
+      cicilan: "Rp 4.290.000 / bulan",
+      bunga: "9.7%",
       highlight: false,
     },
     {
       bulan: 48,
       pinjaman: "Rp 100.000.000",
-      cicilan: "Rp 3.400.000 / bulan",
-      bunga: "1.2%",
+      cicilan: "Rp 3.580.000 / bulan",
+      bunga: "10.6%",
       highlight: true,
     },
   ];
@@ -145,7 +145,7 @@ export default function ProductGadai() {
                   p.highlight ? "text-white/80" : "text-gray-600"
                 }`}
               >
-                Bunga {p.bunga} per bulan
+                Bunga {p.bunga} per tahun
               </p>
 
               <div className="space-y-3 text-base font-medium">
