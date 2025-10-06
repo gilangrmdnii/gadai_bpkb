@@ -1,8 +1,9 @@
 "use client";
 import { motion } from "framer-motion";
+import { useState } from "react";
 import Image from "next/image";
 
-const Hero = () => {
+const Hero = ({ onOpenModal }: { onOpenModal: () => void }) => {
   const items = [
     { title: "Proses Cepat", desc: "Cair dalam 1x24 jam tanpa ribet." },
     { title: "Bunga Ringan", desc: "Cicilan fleksibel dengan bunga kompetitif." },
@@ -58,11 +59,12 @@ const Hero = () => {
             className="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start"
           >
             <a
-              href="#apply"
-              className="bg-white text-ocean-700 px-8 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl hover:scale-[1.03] transition-all"
+              onClick={onOpenModal}
+              className="cursor-pointer bg-white text-ocean-700 px-8 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl hover:scale-[1.03] transition-all"
             >
               Ajukan Sekarang
             </a>
+
             <a
               href="#produk"
               className="border border-white/70 px-8 py-3 rounded-xl font-semibold hover:bg-white/10 hover:scale-[1.03] transition-all"

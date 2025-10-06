@@ -3,7 +3,8 @@
 import { motion } from "framer-motion";
 import { BadgeCheck, Calendar, Car, ShieldCheck, HeartPulse } from "lucide-react";
 
-export default function ProductGadai() {
+export default function ProductGadai({ onOpenModal }: { onOpenModal: () => void }) {
+
   const products = [
     {
       bulan: 12,
@@ -55,7 +56,7 @@ export default function ProductGadai() {
   ];
 
   const handleWhatsAppClick = (product: any) => {
-    const nomor = "628119274006"; 
+    const nomor = "628119274006";
     const pesan = `Halo, saya tertarik dengan produk gadai tenor ${product.bulan} bulan (pinjaman ${product.pinjaman}, cicilan ${product.cicilan}). Mohon info lebih lanjut.`;
     const url = `https://wa.me/${nomor}?text=${encodeURIComponent(pesan)}`;
     window.open(url, "_blank");
@@ -77,7 +78,7 @@ export default function ProductGadai() {
         </motion.h2>
 
         <p className="text-gray-600 mb-8 max-w-2xl mx-auto text-lg">
-          Pilih tenor dan jumlah pinjaman sesuai kebutuhan Anda.  
+          Pilih tenor dan jumlah pinjaman sesuai kebutuhan Anda.
           Proses mudah, transparan, dan terpercaya.
         </p>
 
@@ -108,10 +109,9 @@ export default function ProductGadai() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.15 }}
               className={`relative p-8 rounded-3xl border shadow-2xl transition-all duration-500 backdrop-blur-xl hover:-translate-y-2 
-                ${
-                  p.highlight
-                    ? "bg-gradient-to-b from-ocean-600 to-ocean-700 text-white border-ocean-400"
-                    : "bg-white/70 border-ocean-100 text-gray-800 hover:shadow-ocean-200/40"
+                ${p.highlight
+                  ? "bg-gradient-to-b from-ocean-600 to-ocean-700 text-white border-ocean-400"
+                  : "bg-white/70 border-ocean-100 text-gray-800 hover:shadow-ocean-200/40"
                 }`}
             >
               {p.highlight && (
@@ -127,10 +127,9 @@ export default function ProductGadai() {
               <div className="mb-6 flex justify-center">
                 <div
                   className={`w-16 h-16 rounded-2xl flex items-center justify-center shadow-inner
-                    ${
-                      p.highlight
-                        ? "bg-white/20 text-white"
-                        : "bg-gradient-to-br from-ocean-100 to-ocean-50 text-ocean-600"
+                    ${p.highlight
+                      ? "bg-white/20 text-white"
+                      : "bg-gradient-to-br from-ocean-100 to-ocean-50 text-ocean-600"
                     }`}
                 >
                   <Calendar className="w-8 h-8" />
@@ -141,9 +140,8 @@ export default function ProductGadai() {
                 Tenor {p.bulan} Bulan
               </h3>
               <p
-                className={`text-lg mb-6 ${
-                  p.highlight ? "text-white/80" : "text-gray-600"
-                }`}
+                className={`text-lg mb-6 ${p.highlight ? "text-white/80" : "text-gray-600"
+                  }`}
               >
                 Bunga {p.bunga} per tahun
               </p>
@@ -160,12 +158,11 @@ export default function ProductGadai() {
               {/* Button WhatsApp */}
               <motion.button
                 whileHover={{ scale: 1.05 }}
-                onClick={() => handleWhatsAppClick(p)}
+                onClick={onOpenModal}
                 className={`mt-10 w-full py-3 rounded-xl font-semibold transition-all duration-300 shadow-md 
-                  ${
-                    p.highlight
-                      ? "bg-white text-ocean-700 hover:bg-gray-100"
-                      : "bg-gradient-to-r from-ocean-600 to-ocean-700 text-white hover:brightness-110"
+    ${p.highlight
+                    ? "bg-white text-ocean-700 hover:bg-gray-100"
+                    : "bg-gradient-to-r from-ocean-600 to-ocean-700 text-white hover:brightness-110"
                   }`}
               >
                 Ajukan Sekarang

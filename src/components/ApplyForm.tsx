@@ -47,7 +47,7 @@ export default function ApplyForm() {
     const currentYear = new Date().getFullYear();
     const jenis = form.jenisKendaraan;
 
-    let startYear = 2005; 
+    let startYear = 2005;
     if (jenis === "Mobil") startYear = 2006;
     else if (jenis === "Motor") startYear = 2016;
 
@@ -59,8 +59,16 @@ export default function ApplyForm() {
   }, [form.jenisKendaraan]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    let { name, value } = e.target;
+
+    if (name === "noHP") {
+      // Hanya izinkan angka
+      value = value.replace(/\D/g, "");
+    }
+
+    setForm({ ...form, [name]: value });
   };
+
 
   const validateForm = () => {
     const nextErrors: { [k: string]: string } = {};
@@ -274,7 +282,7 @@ export default function ApplyForm() {
               🚀 Ajukan
             </button>
             <p className="text-gray-400 text-center mt-2">
-              *Kerahasiaan data Anda terjamin*
+              *Kerahasiaan data Anda prioritas kami*
             </p>
           </motion.div>
         </div>

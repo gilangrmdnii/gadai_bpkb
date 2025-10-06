@@ -1,3 +1,5 @@
+"use client";
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import WhyUs from "@/components/WhyUs";
@@ -11,23 +13,38 @@ import ProductGadai from "@/components/ProductGadai";
 import Testimonials from "@/components/Testimonials";
 import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 import ScrollToTop from "@/components/ScrollToTop";
+import ApplyModal from "@/components/ApplyModal"; // ⬅️ Modal baru
 
 export default function Home() {
+  const [openModal, setOpenModal] = useState(false);
+
   return (
     <main className="font-sans relative z-0 bg-white min-h-screen overflow-hidden">
       <Navbar />
-      <Hero />
+
+      {/* Kirim handler ke Hero */}
+      <Hero onOpenModal={() => setOpenModal(true)} />
+
       <WhyUs />
       <ApplyForm />
       <Features />
       <FAQ />
-      <ProductGadai />
+
+      {/* Kirim handler ke ProductGadai */}
+      <ProductGadai onOpenModal={() => setOpenModal(true)} />
+
       <SupportedBy />
       <Testimonials />
-      <CTA />
+
+      {/* Kirim handler ke CTA */}
+      <CTA onOpenModal={() => setOpenModal(true)} />
+
       <Footer />
       <FloatingWhatsApp />
       <ScrollToTop />
+
+      {/* Modal Global */}
+      <ApplyModal open={openModal} onClose={() => setOpenModal(false)} />
     </main>
   );
 }

@@ -16,9 +16,9 @@ const items: QA[] = [
 const FAQItem = ({ q, a, icon }: QA) => {
   const [open, setOpen] = useState(false);
   return (
-    <motion.div 
-      layout 
-      onClick={() => setOpen(!open)} 
+    <motion.div
+      layout
+      onClick={() => setOpen(!open)}
       className={`cursor-pointer rounded-2xl p-5 border transition-all duration-300 
         ${open ? "border-ocean-500 bg-ocean-50/70 shadow-md" : "border-gray-200 hover:border-ocean-300 hover:bg-gray-50/70"}`}
     >
@@ -62,7 +62,7 @@ const FAQ = () => {
   return (
     <section id="faq" className="relative py-24 bg-gradient-to-b from-gray-50 to-white">
       <div className="container grid md:grid-cols-2 gap-12 items-start">
-        
+
         {/* Left: intro / storytelling */}
         <div className="relative">
           <Reveal>
@@ -72,7 +72,7 @@ const FAQ = () => {
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mt-4 text-gray-600 max-w-md">
-              Kami tahu setiap orang punya rasa ingin tahu sebelum mengajukan.  
+              Kami tahu setiap orang punya rasa ingin tahu sebelum mengajukan.
               Karena itu, kami rangkum pertanyaan umum yang sering muncul dari calon nasabah.
             </p>
           </Reveal>
@@ -80,8 +80,16 @@ const FAQ = () => {
             <div className="mt-8 p-5 rounded-2xl bg-ocean-50 border border-ocean-100 shadow-sm flex items-center gap-3">
               <HelpCircle className="w-6 h-6 text-ocean-600" />
               <p className="text-sm text-gray-700">
-                Masih ada yang belum jelas? <a href="#kontak" className="text-ocean-700 font-semibold hover:underline">Hubungi tim kami</a>.
+                Masih ada yang belum jelas?{" "}
+                <a
+                  href="#kontak"
+                  rel="noopener noreferrer"
+                  className="text-ocean-700 font-semibold hover:underline"
+                >
+                  Hubungi tim kami
+                </a>.
               </p>
+
             </div>
           </Reveal>
 
