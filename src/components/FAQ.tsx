@@ -7,10 +7,26 @@ import { HelpCircle, ShieldCheck, Timer, HandCoins, FileCheck } from "lucide-rea
 type QA = { q: string; a: string; icon: JSX.Element };
 
 const items: QA[] = [
-  { q: "Berapa lama proses pencairan?", a: "Umumnya dalam 1x24 jam setelah dokumen lengkap dan verifikasi selesai.", icon: <Timer className="w-5 h-5" /> },
-  { q: "Apakah aman dan legal?", a: "Ya, proses resmi dan mematuhi regulasi yang berlaku, terdaftar dan diawasi OJK.", icon: <ShieldCheck className="w-5 h-5" /> },
-  { q: "Bunga dan tenor seperti apa?", a: "Bunga kompetitif dengan pilihan tenor fleksibel sesuai kebutuhan Anda.", icon: <HandCoins className="w-5 h-5" /> },
-  { q: "Apakah BPKB ditahan?", a: "Ya, BPKB dititipkan selama masa pinjaman. Kendaraan tetap bisa digunakan seperti biasa.", icon: <FileCheck className="w-5 h-5" /> },
+  {
+    q: "Berapa lama proses pencairan pinjaman BPKB?",
+    a: "Proses pencairan pinjaman BPKB biasanya hanya membutuhkan waktu 1x24 jam setelah dokumen lengkap dan proses verifikasi selesai. Kami pastikan proses cepat dan transparan.",
+    icon: <Timer className="w-5 h-5" />
+  },
+  {
+    q: "Apakah layanan gadai BPKB ini aman dan legal?",
+    a: "Ya, layanan kami terdaftar resmi dan diawasi oleh OJK. Semua proses dilakukan sesuai regulasi yang berlaku untuk memastikan keamanan dan legalitas transaksi.",
+    icon: <ShieldCheck className="w-5 h-5" />
+  },
+  {
+    q: "Bagaimana bunga dan tenor pinjaman BPKB?",
+    a: "Kami menawarkan bunga kompetitif dengan tenor fleksibel yang dapat disesuaikan dengan kebutuhan finansial Anda, agar cicilan lebih ringan.",
+    icon: <HandCoins className="w-5 h-5" />
+  },
+  {
+    q: "Apakah BPKB kendaraan ditahan selama masa pinjaman?",
+    a: "Ya, BPKB kendaraan akan dititipkan selama masa pinjaman. Namun kendaraan tetap dapat digunakan seperti biasa tanpa kendala.",
+    icon: <FileCheck className="w-5 h-5" />
+  },
 ];
 
 const FAQItem = ({ q, a, icon }: QA) => {
@@ -67,13 +83,12 @@ const FAQ = () => {
         <div className="relative">
           <Reveal>
             <h3 className="text-3xl md:text-4xl font-extrabold text-gray-800 leading-snug">
-              Pertanyaan yang <span className="text-ocean-600">Sering Ditanyakan</span>
+              Pertanyaan yang <span className="text-ocean-600">Sering Ditanyakan Tentang Gadai BPKB</span>
             </h3>
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mt-4 text-gray-600 max-w-md">
-              Kami tahu setiap orang punya rasa ingin tahu sebelum mengajukan.
-              Karena itu, kami rangkum pertanyaan umum yang sering muncul dari calon nasabah.
+              Temukan jawaban atas pertanyaan umum seputar layanan gadai BPKB, proses pinjaman cepat cair, bunga ringan, dan keamanan transaksi.
             </p>
           </Reveal>
           <Reveal delay={0.2}>

@@ -39,7 +39,7 @@ const Hero = ({ onOpenModal }: { onOpenModal: () => void }) => {
             transition={{ duration: 0.8 }}
             className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight"
           >
-            Pinjaman Cepat & Aman dengan Jaminan BPKB
+            Pinjaman BPKB Cepat Cair & Aman Terpercaya
           </motion.h2>
 
           <motion.p
@@ -48,8 +48,8 @@ const Hero = ({ onOpenModal }: { onOpenModal: () => void }) => {
             transition={{ duration: 1 }}
             className="mt-4 text-base sm:text-lg text-blue-100 max-w-md mx-auto md:mx-0"
           >
-            Proses mudah, bunga ringan, cair hanya dalam hitungan jam.
-            Solusi finansial terpercaya untuk kebutuhan Anda.
+            Proses mudah tanpa BI checking, bunga ringan, cair dalam 1x24 jam.
+            Solusi gadai kendaraan terpercaya untuk kebutuhan dana tunai Anda.
           </motion.p>
 
           <motion.div

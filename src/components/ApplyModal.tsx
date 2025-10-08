@@ -84,7 +84,27 @@ export default function ApplyModal({
               transition={{ delay: 0.5, duration: 0.4 }}
               className="text-gray-400 text-center mt-4 text-xs sm:text-sm"
             >
-              *Kerahasiaan data Anda prioritas kami*
+              <div className="mt-4 flex flex-col sm:flex-row items-center justify-center gap-3 text-gray-500 text-sm">
+                <div className="flex items-center gap-2">
+                  <img
+                    src="/images/SSL-removebg-preview.png"
+                    alt="Keamanan Terjamin SSL Secure"
+                    className="h-10 sm:h-12 md:h-14 object-contain"
+                  />
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <img
+                    src="/images/sectigo-removebg-preview.png"
+                    alt="Keamanan Terjamin Sectigo Secure"
+                    className="h-10 sm:h-12 md:h-14 object-contain"
+                  />
+                </div>
+              </div>
+
+              <p className="text-gray-400 text-center mt-2 text-xs">
+                *Keamanan dan Kerahasiaan data Anda prioritas kami*
+              </p>
             </motion.p>
           </motion.div>
         </motion.div>

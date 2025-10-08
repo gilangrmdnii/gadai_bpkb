@@ -31,15 +31,13 @@ const Navbar = () => {
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6 }}
-      className={`fixed inset-x-0 top-0 z-50 
-        ${scrolled ? "bg-white/95 shadow-md" : "bg-white/70 shadow-sm"} 
-        backdrop-blur-xl border-b border-black/5 transition-all duration-300`}
+      className={`fixed inset-x-0 top-0 z-50 backdrop-blur-xl border-b border-black/5 transition-all duration-300 ${
+        scrolled ? "bg-white/95 shadow-lg" : "bg-white/70"
+      }`}
     >
-      <div
-        className={`container flex items-center justify-between ${scrolled ? "py-2.5" : "py-3.5"
-          }`}
-      >
-        {/* Logo - Diperbesar dengan tinggi tetap */}
+      <div className={`container flex items-center justify-between ${scrolled ? "py-2.5" : "py-3.5"}`}>
+        
+        {/* Logo */}
         <Link href="/" className="flex items-center">
           <div className="relative w-[200px] h-[50px] md:w-[220px] md:h-[55px]">
             <Image
@@ -53,7 +51,7 @@ const Navbar = () => {
           </div>
         </Link>
 
-        {/* Desktop Nav */}
+        {/* Desktop Menu */}
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-700">
           {menuItems.map((item) => (
             <Link
@@ -67,7 +65,7 @@ const Navbar = () => {
           ))}
         </nav>
 
-        {/* CTA & Mobile Button */}
+        {/* CTA + Hamburger */}
         <div className="flex items-center gap-3">
           <Link
             href="#apply"
@@ -80,13 +78,9 @@ const Navbar = () => {
           <button
             aria-label="Toggle menu"
             onClick={() => setOpen(!open)}
-            className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg bg-white/80 border border-black/10 shadow-sm hover:bg-white transition"
+            className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg bg-white/80 border border-black/10 shadow hover:bg-white transition"
           >
-            {open ? (
-              <X className="w-6 h-6 text-gray-800" />
-            ) : (
-              <Menu className="w-6 h-6 text-gray-800" />
-            )}
+            {open ? <X className="w-6 h-6 text-gray-800" /> : <Menu className="w-6 h-6 text-gray-800" />}
           </button>
         </div>
       </div>
@@ -99,13 +93,13 @@ const Navbar = () => {
           exit={{ opacity: 0, y: -8 }}
           className="md:hidden border-t border-black/5 bg-white/95 backdrop-blur-xl"
         >
-          <div className="container py-4 flex flex-col gap-3 text-gray-800">
+          <div className="container py-4 flex flex-col gap-4 text-gray-800">
             {menuItems.map((item) => (
               <Link
                 key={item.label}
                 href={item.href}
                 onClick={() => setOpen(false)}
-                className="py-2 hover:text-ocean-700 transition text-sm"
+                className="py-2 text-sm font-medium hover:text-ocean-700 transition"
               >
                 {item.label}
               </Link>
@@ -113,7 +107,7 @@ const Navbar = () => {
             <Link
               href="#apply"
               onClick={() => setOpen(false)}
-              className="mt-2 inline-flex bg-ocean-600 text-white px-5 py-2 rounded-lg hover:bg-ocean-700 transition shadow-md font-medium text-sm"
+              className="mt-2 inline-flex bg-ocean-600 text-white px-5 py-2 rounded-lg hover:bg-ocean-700 transition shadow font-medium text-sm"
             >
               Ajukan Sekarang
             </Link>

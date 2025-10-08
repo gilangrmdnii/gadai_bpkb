@@ -166,6 +166,7 @@ export default function ApplyForm() {
     <section id="apply" className="relative py-24 bg-gradient-to-br from-ocean-50 to-white">
       <div className="container mx-auto max-w-6xl px-4 sm:px-6 py-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center justify-items-center">
+
           {/* Kolom kiri */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -188,7 +189,6 @@ export default function ApplyForm() {
             </p>
           </motion.div>
 
-          {/* Kolom kanan */}
           {/* Kolom kanan */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
@@ -281,8 +281,27 @@ export default function ApplyForm() {
             >
               🚀 Ajukan
             </button>
-            <p className="text-gray-400 text-center mt-2">
-              *Kerahasiaan data Anda prioritas kami*
+
+            <div className="mt-4 flex flex-col sm:flex-row items-center justify-center gap-3 text-gray-500 text-sm">
+              <div className="flex items-center gap-2">
+                <img
+                  src="/images/SSL-removebg-preview.png"
+                  alt="Keamanan Terjamin SSL Secure"
+                  className="h-10 sm:h-12 md:h-14 object-contain"
+                />
+              </div>
+
+              <div className="flex items-center gap-2">
+                <img
+                  src="/images/sectigo-removebg-preview.png"
+                  alt="Keamanan Terjamin Sectigo Secure"
+                  className="h-10 sm:h-12 md:h-14 object-contain"
+                />
+              </div>
+            </div>
+
+            <p className="text-gray-400 text-center mt-2 text-xs">
+              *Keamanan dan Kerahasiaan data Anda prioritas kami*
             </p>
           </motion.div>
         </div>

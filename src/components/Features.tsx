@@ -4,25 +4,25 @@ import { Smartphone, PiggyBank, Zap, Users } from "lucide-react";
 import Reveal from "./Reveal";
 
 const features = [
-  { 
-    title: "Cair Cepat & Transparan", 
-    desc: "Ajukan pinjaman hanya dalam hitungan menit. Semua proses jelas tanpa biaya tersembunyi.", 
-    icon: <Zap className="w-6 h-6 text-white" /> 
+  {
+    title: "Cair Cepat & Transparan",
+    desc: "Ajukan pinjaman BPKB kendaraan Anda hanya dalam hitungan menit. Semua proses jelas tanpa biaya tersembunyi dan tanpa ribet.",
+    icon: <Zap className="w-6 h-6 text-white" />
   },
-  { 
-    title: "Bunga Ringan & Fleksibel", 
-    desc: "Pilih tenor cicilan sesuai kebutuhan Anda. Bebas atur pembayaran dengan bunga kompetitif.", 
-    icon: <PiggyBank className="w-6 h-6 text-white" /> 
+  {
+    title: "Bunga Ringan & Fleksibel",
+    desc: "Nikmati cicilan gadai BPKB dengan bunga kompetitif dan tenor fleksibel sesuai kebutuhan Anda.",
+    icon: <PiggyBank className="w-6 h-6 text-white" />
   },
-  { 
-    title: "Pantau dari Smartphone", 
-    desc: "Lacak status pengajuan & cicilan langsung dari genggaman dengan dashboard mobile-friendly.", 
-    icon: <Smartphone className="w-6 h-6 text-white" /> 
+  {
+    title: "Pantau Status dari Smartphone",
+    desc: "Lacak status pengajuan dan cicilan gadai kendaraan langsung dari smartphone Anda dengan dashboard mobile-friendly.",
+    icon: <Smartphone className="w-6 h-6 text-white" />
   },
-  { 
-    title: "Support Ramah & Personal", 
-    desc: "Tim kami bukan sekadar CS. Kami hadir untuk mendampingi perjalanan finansial Anda.", 
-    icon: <Users className="w-6 h-6 text-white" /> 
+  {
+    title: "Support Ramah & Terpercaya",
+    desc: "Tim kami siap membantu proses gadai BPKB Anda dengan pelayanan cepat, aman, dan personal.",
+    icon: <Users className="w-6 h-6 text-white" />
   },
 ];
 
@@ -57,7 +57,7 @@ const Features = () => {
         </Reveal>
         <Reveal delay={0.1}>
           <p className="mt-3 text-center text-gray-600 max-w-2xl mx-auto">
-            Lebih dari sekadar gadai BPKB, kami berikan pengalaman finansial yang 
+            Lebih dari sekadar gadai BPKB, kami berikan pengalaman finansial yang
             <span className="font-medium text-ocean-700"> cepat, aman, dan bersahabat</span>.
           </p>
         </Reveal>

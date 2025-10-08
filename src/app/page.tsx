@@ -14,6 +14,7 @@ import Testimonials from "@/components/Testimonials";
 import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 import ScrollToTop from "@/components/ScrollToTop";
 import ApplyModal from "@/components/ApplyModal"; // ⬅️ Modal baru
+import InfoDokumenSection from "@/components/InfoDocuyments";
 
 export default function Home() {
   const [openModal, setOpenModal] = useState(false);
@@ -21,29 +22,19 @@ export default function Home() {
   return (
     <main className="font-sans relative z-0 bg-white min-h-screen overflow-hidden">
       <Navbar />
-
-      {/* Kirim handler ke Hero */}
       <Hero onOpenModal={() => setOpenModal(true)} />
-
       <WhyUs />
       <ApplyForm />
       <Features />
       <FAQ />
-
-      {/* Kirim handler ke ProductGadai */}
+      <InfoDokumenSection />
       <ProductGadai onOpenModal={() => setOpenModal(true)} />
-
       <SupportedBy />
       <Testimonials />
-
-      {/* Kirim handler ke CTA */}
       <CTA onOpenModal={() => setOpenModal(true)} />
-
       <Footer />
       <FloatingWhatsApp />
       <ScrollToTop />
-
-      {/* Modal Global */}
       <ApplyModal open={openModal} onClose={() => setOpenModal(false)} />
     </main>
   );
