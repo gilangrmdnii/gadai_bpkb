@@ -16,8 +16,8 @@ const WhyUs = () => {
       icon: <HandCoins className="w-8 h-8 text-ocean-600" />
     },
     {
-      title: "Aman, Legal & Terdaftar OJK",
-      desc: "Layanan gadai kendaraan kami diawasi OJK untuk memastikan keamanan, legalitas, dan kenyamanan setiap transaksi.",
+      title: "Aman, Legal & Terpercaya",
+      desc: "Kami Agensi resmi mitra leasing terpercaya, Layanan gadai kendaraan yang memastikan keamanan, legalitas dan  kenyamanan setiap transaksi.",
       icon: <ShieldCheck className="w-8 h-8 text-ocean-600" />
     },
     {

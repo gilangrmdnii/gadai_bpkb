@@ -7,7 +7,7 @@ const Hero = ({ onOpenModal }: { onOpenModal: () => void }) => {
   const items = [
     { title: "Proses Cepat", desc: "Cair dalam 1x24 jam tanpa ribet." },
     { title: "Bunga Ringan", desc: "Cicilan fleksibel dengan bunga kompetitif." },
-    { title: "Aman & Legal", desc: "Terdaftar resmi dan diawasi OJK." },
+    { title: "Cair hingga 95%", desc: "Tergantung kondisi aset & kelengkapan dokumen" }
   ];
 
   return (

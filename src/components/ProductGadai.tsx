@@ -8,7 +8,26 @@ import {
   ShieldCheck,
   HeartPulse,
   Percent,
+  CreditCard
 } from "lucide-react";
+
+const items = [
+  {
+    icon: <Percent className="w-6 h-6 text-ocean-400" />,
+    title: "Bunga Flat per Bulan",
+    desc: "Bunga rendah mulai 0,86% s/d 1,1% flat per bulan",
+  },
+  {
+    icon: <Calendar className="w-6 h-6 text-ocean-400" />,
+    title: "Suku Bunga per Tahun",
+    desc: "Mulai 10.86% s/d 12.12% (sesuai kondisi aset & kelengkapan dokumen)",
+  },
+  {
+    icon: <CreditCard className="w-6 h-6 text-ocean-400" />,
+    title: "Pinjaman Minimum & Maksimum",
+    desc: "Mulai dari Rp 10 juta hingga 85% dari nilai Kendaraan",
+  },
+];
 
 export default function ProductGadai({
   onOpenModal,
@@ -26,7 +45,7 @@ export default function ProductGadai({
     },
     {
       bulan: 24,
-      bulanDiskon: 20,
+      bulanDiskon: 22,
       pinjaman: "Rp 100.000.000",
       cicilan: "Rp 5.910.000 / bulan",
       bunga: "9.1%",
@@ -93,6 +112,31 @@ export default function ProductGadai({
           Pilih tenor dan jumlah pinjaman sesuai kebutuhan Anda.
           Proses mudah, cepat, dan transparan.
         </p>
+
+        <div className="grid grid-cols-1 gap-6 mb-16">
+          {items.map((item, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: i * 0.2 }}
+              className="flex flex-col sm:flex-row items-start sm:items-center justify-between 
+                         bg-white/10 backdrop-blur-lg border border-gray-200 rounded-3xl 
+                         p-6 shadow-md hover:shadow-lg hover:scale-[1.02] transition-all duration-300"
+            >
+              {/* Icon + Title */}
+              <div className="flex items-center gap-4 sm:w-1/3">
+                {item.icon}
+                <span className="font-semibold text-ocean-800 text-lg">{item.title}</span>
+              </div>
+
+              {/* Deskripsi */}
+              <span className="text-ocean-700 sm:w-2/3 mt-3 sm:mt-0 text-base md:text-lg leading-relaxed">
+                {item.desc}
+              </span>
+            </motion.div>
+          ))}
+        </div>
 
         {/* Product Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 max-w-6xl mx-auto mb-16">

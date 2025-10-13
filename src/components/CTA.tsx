@@ -61,7 +61,7 @@ const CTA = ({ onOpenModal }: { onOpenModal: () => void }) => {
           className="mt-8 flex items-center justify-center gap-3 text-sm text-ocean-100"
         >
           <ShieldCheck className="w-4 h-4" />
-          Terdaftar & diawasi OJK
+          Agensi resmi mitra leasing terpercaya
         </motion.div>
       </div>
 

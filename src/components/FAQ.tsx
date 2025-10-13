@@ -14,7 +14,7 @@ const items: QA[] = [
   },
   {
     q: "Apakah layanan gadai BPKB ini aman dan legal?",
-    a: "Ya, layanan kami terdaftar resmi dan diawasi oleh OJK. Semua proses dilakukan sesuai regulasi yang berlaku untuk memastikan keamanan dan legalitas transaksi.",
+    a: "Ya, Layanan kami agensi resmi mitra leasing terpercaya, yang terdaftar dan diawasi oleh OJK serta anggota APPI. Semua Proses dilakukan sesuai regulasi yang berlaku untuk memastikan keamanan dan legalitas transaksi.",
     icon: <ShieldCheck className="w-5 h-5" />
   },
   {

@@ -13,7 +13,7 @@ import ProductGadai from "@/components/ProductGadai";
 import Testimonials from "@/components/Testimonials";
 import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 import ScrollToTop from "@/components/ScrollToTop";
-import ApplyModal from "@/components/ApplyModal"; // ⬅️ Modal baru
+import ApplyModal from "@/components/ApplyModal"; 
 import InfoDokumenSection from "@/components/InfoDocuyments";
 
 export default function Home() {

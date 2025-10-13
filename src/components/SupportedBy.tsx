@@ -5,16 +5,21 @@ import Image from "next/image";
 export default function SupportedBy() {
   const logos = [
     { src: "/images/ppi.png", alt: "PPI" },
-    { src: "/images/logo-ojk-new.png", alt: "Logo OJK" },
+    { src: "/images/logo-ojk-new.png", alt: "OJK" },
   ];
 
   return (
     <section className="relative py-20 bg-gradient-to-br from-ocean-50 to-white overflow-hidden">
       <div className="container mx-auto px-6 text-center">
         {/* Judul */}
-        <h2 className="text-2xl md:text-3xl font-semibold text-ocean-800 mb-10">
-          Diawasi oleh
+        <h2 className="text-2xl md:text-3xl font-semibold text-ocean-800 mb-6">
+          Leasing Partner
         </h2>
+
+        {/* Deskripsi */}
+        <p className="max-w-3xl mx-auto text-ocean-700 text-base md:text-lg leading-relaxed mb-10">
+          GarasiBPKB.id adalah agensi resmi mitra leasing terpercaya, terdaftar dan diawasi oleh OJK serta anggota APPI.
+        </p>
 
         {/* Logo wrapper */}
         <div className="flex flex-wrap items-center justify-center gap-10 md:gap-16">
