@@ -39,7 +39,7 @@ const Hero = ({ onOpenModal }: { onOpenModal: () => void }) => {
             transition={{ duration: 0.8 }}
             className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight"
           >
-            Pinjaman BPKB Cepat Cair & Aman Terpercaya
+             Pinjaman BPKB Cepat Cair & Aman Terpercaya
           </motion.h2>
 
           <motion.p

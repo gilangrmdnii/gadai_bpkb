@@ -17,16 +17,16 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Gadai BPKB Cepat & Aman | GadaiBPKB",
+    default: "Pinjaman BPKB Cepat Cair & Aman Terpercaya",
     template: "%s | GadaiBPKB",
   },
   description:
-    "Ajukan pinjaman dengan jaminan BPKB. Proses cepat, bunga kompetitif, aman & resmi.",
+    "Proses mudah tanpa BI checking, bunga ringan, cair dalam 1x24 jam. Solusi gadai kendaraan terpercaya untuk kebutuhan dana tunai Anda.",
   icons: { icon: "/favicon.ico" },
   openGraph: {
-    title: "Gadai BPKB Cepat & Aman | GadaiBPKB",
+    title: "Pinjaman BPKB Cepat Cair & Aman Terpercaya",
     description:
-      "Ajukan pinjaman dengan jaminan BPKB. Proses cepat, bunga kompetitif, aman & resmi.",
+      "Proses mudah tanpa BI checking, bunga ringan, cair dalam 1x24 jam. Solusi gadai kendaraan terpercaya untuk kebutuhan dana tunai Anda.",
     type: "website",
     locale: "id_ID",
   },
