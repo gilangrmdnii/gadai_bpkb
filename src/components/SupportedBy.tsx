@@ -18,7 +18,7 @@ export default function SupportedBy() {
 
         {/* Deskripsi */}
         <p className="max-w-3xl mx-auto text-ocean-700 text-base md:text-lg leading-relaxed mb-10">
-          GarasiBPKB.id adalah agensi resmi mitra leasing terpercaya, terdaftar dan diawasi oleh OJK serta anggota APPI.
+          GarasiBPKB.id adalah agensi resmi mitra leasing terpercaya, bekerja sama dengan lembaga pembiayaan yang terdaftar dan diawasi oleh OJK serta merupakan anggota APPI.
         </p>
 
         {/* Logo wrapper */}

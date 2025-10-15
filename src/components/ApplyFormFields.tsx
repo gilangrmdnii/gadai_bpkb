@@ -60,12 +60,14 @@ export default function ApplyFormFields({ compact = false }: { compact?: boolean
         setForm({ ...form, [name]: value });
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
+        // Validasi dasar
         if (!form.namaLengkap || !form.noHP) {
             alert("Harap isi nama dan nomor HP");
             return;
         }
 
+        // Konfirmasi data
         const konfirmasi = window.confirm(`
 Nama: ${form.namaLengkap}
 No HP: ${form.noHP}
@@ -73,17 +75,76 @@ Alamat: ${form.alamat}
 Provinsi: ${provinsiList.find(p => p.id === form.provinsi)?.name || "-"}
 Kota: ${kotaList.find(k => k.id === form.kota)?.name || "-"}
 Jenis Kendaraan: ${form.jenisKendaraan}
-Tipe: ${form.tipeKendaraan}
+Tipe Kendaraan: ${form.tipeKendaraan}
 Tahun: ${form.tahunKendaraan}
-
 Apakah data sudah benar?
   `);
 
         if (!konfirmasi) return;
 
-        alert("✅ Data terkirim!");
-    };
+        try {
+            // Gabungkan alamat lengkap
+            const provName = provinsiList.find(p => p.id === form.provinsi)?.name || "";
+            const kotaName = kotaList.find(k => k.id === form.kota)?.name || "";
+            const alamatGabung = `${form.alamat}, ${kotaName}, ${provName}`;
 
+            // Payload untuk backend
+            const payload = {
+                namaLengkap: form.namaLengkap,
+                noHP: form.noHP,
+                alamat: alamatGabung,
+                jenisKendaraan: form.jenisKendaraan,
+                tipeKendaraan: form.tipeKendaraan,
+                tahunKendaraan: form.tahunKendaraan,
+            };
+
+            // Kirim data ke server
+            const response = await fetch("/api/submit.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+            });
+
+            const result = await response.json();
+
+            if (!result.success) {
+                alert("❌ Gagal mengirim data. " + (result.message || ""));
+                return;
+            }
+
+            // Proses WhatsApp
+            let nomorWA = form.noHP.replace(/\D/g, "");
+            if (nomorWA.startsWith("0")) nomorWA = "62" + nomorWA.substring(1);
+            else if (!nomorWA.startsWith("62")) nomorWA = "62" + nomorWA;
+
+            if (nomorWA.length < 11 || nomorWA.length > 15) {
+                alert("❌ Nomor WA tidak valid. Pastikan minimal 10 digit setelah kode negara.");
+                return;
+            }
+
+            const pesanWA = `Halo, saya ingin mengajukan pinjaman.\n\n📋 DATA PEMOHON:\n• Nama: ${form.namaLengkap}\n• HP: ${form.noHP}\n• Alamat: ${alamatGabung}\n\n🚗 DATA KENDARAAN:\n• Jenis: ${form.jenisKendaraan}\n• Tipe: ${form.tipeKendaraan}\n• Tahun: ${form.tahunKendaraan}`;
+
+            window.open(`https://wa.me/${nomorWA}?text=${encodeURIComponent(pesanWA)}`, "_blank");
+
+            // Reset form
+            setForm({
+                namaLengkap: "",
+                noHP: "",
+                alamat: "",
+                provinsi: "",
+                kota: "",
+                jenisKendaraan: "",
+                tipeKendaraan: "",
+                tahunKendaraan: "",
+            });
+
+            alert("✅ Data berhasil terkirim!");
+
+        } catch (err) {
+            console.error("Submission error:", err);
+            alert("❌ Terjadi kesalahan saat mengirim data. Periksa koneksi internet Anda.");
+        }
+    };
 
     return (
         <div
