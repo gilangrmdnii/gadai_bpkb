@@ -61,34 +61,30 @@ export default function ApplyFormFields({ compact = false }: { compact?: boolean
     };
 
     const handleSubmit = async () => {
-        // Validasi dasar
         if (!form.namaLengkap || !form.noHP) {
             alert("Harap isi nama dan nomor HP");
             return;
         }
 
-        // Konfirmasi data
         const konfirmasi = window.confirm(`
-Nama: ${form.namaLengkap}
-No HP: ${form.noHP}
-Alamat: ${form.alamat}
-Provinsi: ${provinsiList.find(p => p.id === form.provinsi)?.name || "-"}
-Kota: ${kotaList.find(k => k.id === form.kota)?.name || "-"}
-Jenis Kendaraan: ${form.jenisKendaraan}
-Tipe Kendaraan: ${form.tipeKendaraan}
-Tahun: ${form.tahunKendaraan}
-Apakah data sudah benar?
+    Nama: ${form.namaLengkap}
+    No HP: ${form.noHP}
+    Alamat: ${form.alamat}
+    Provinsi: ${provinsiList.find(p => p.id === form.provinsi)?.name || "-"}
+    Kota: ${kotaList.find(k => k.id === form.kota)?.name || "-"}
+    Jenis Kendaraan: ${form.jenisKendaraan}
+    Tipe Kendaraan: ${form.tipeKendaraan}
+    Tahun: ${form.tahunKendaraan}
+    Apakah data sudah benar?
   `);
 
         if (!konfirmasi) return;
 
         try {
-            // Gabungkan alamat lengkap
             const provName = provinsiList.find(p => p.id === form.provinsi)?.name || "";
             const kotaName = kotaList.find(k => k.id === form.kota)?.name || "";
             const alamatGabung = `${form.alamat}, ${kotaName}, ${provName}`;
 
-            // Payload untuk backend
             const payload = {
                 namaLengkap: form.namaLengkap,
                 noHP: form.noHP,
@@ -98,29 +94,31 @@ Apakah data sudah benar?
                 tahunKendaraan: form.tahunKendaraan,
             };
 
-            // Kirim data ke server
-            const response = await fetch("/api/submit.php", {
+            const response = await fetch("/api/submit", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
             });
 
             const result = await response.json();
-
             if (!result.success) {
                 alert("❌ Gagal mengirim data. " + (result.message || ""));
                 return;
             }
 
-            // Proses WhatsApp
+            // === ✅ Panggil Google Ads Conversion Tracking ===
+            if (typeof window !== "undefined" && window.gtag) {
+                window.gtag('event', 'conversion', {
+                    send_to: 'AW-123456789/AbCdEfGhIjkLmNopQr', // 🔁 Ganti ID & Label kamu
+                    value: 1.0,
+                    currency: 'IDR',
+                });
+            }
+
+            // === WhatsApp Redirect ===
             let nomorWA = form.noHP.replace(/\D/g, "");
             if (nomorWA.startsWith("0")) nomorWA = "62" + nomorWA.substring(1);
             else if (!nomorWA.startsWith("62")) nomorWA = "62" + nomorWA;
-
-            if (nomorWA.length < 11 || nomorWA.length > 15) {
-                alert("❌ Nomor WA tidak valid. Pastikan minimal 10 digit setelah kode negara.");
-                return;
-            }
 
             const pesanWA = `Halo, saya ingin mengajukan pinjaman.\n\n📋 DATA PEMOHON:\n• Nama: ${form.namaLengkap}\n• HP: ${form.noHP}\n• Alamat: ${alamatGabung}\n\n🚗 DATA KENDARAAN:\n• Jenis: ${form.jenisKendaraan}\n• Tipe: ${form.tipeKendaraan}\n• Tahun: ${form.tahunKendaraan}`;
 
@@ -142,9 +140,10 @@ Apakah data sudah benar?
 
         } catch (err) {
             console.error("Submission error:", err);
-            alert("❌ Terjadi kesalahan saat mengirim data. Periksa koneksi internet Anda.");
+            alert("❌ Terjadi kesalahan saat mengirim data.");
         }
     };
+
 
     return (
         <div

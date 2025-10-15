@@ -74,7 +74,7 @@ export default function ApplyForm() {
     const nextErrors: { [k: string]: string } = {};
     if (!form.namaLengkap.trim()) nextErrors.namaLengkap = "Nama wajib diisi";
     if (!/^\+?\d{9,15}$/.test(form.noHP.replace(/\s|-/g, "")))
-      nextErrors.noHp = "Nomor HP tidak valid";
+      nextErrors.noHP = "Nomor HP tidak valid";
     if (!form.alamat.trim()) nextErrors.alamat = "Alamat wajib diisi";
     if (!form.provinsi.trim()) nextErrors.provinsi = "Provinsi wajib dipilih";
     if (!form.kota.trim()) nextErrors.kota = "Kota wajib dipilih";
@@ -87,17 +87,12 @@ export default function ApplyForm() {
     return Object.keys(nextErrors).length === 0;
   };
 
-  const handleSubmit = () => {
-    if (!validateForm()) return;
-    setShowModal(true);
-  };
-
-  const confirmSubmit = async () => {
+  const handleSubmit = async () => {
     setShowModal(false);
 
     try {
-      const provName = provinsiList.find(p => p.id === form.provinsi)?.name || "";
-      const kotaName = kotaList.find(k => k.id === form.kota)?.name || "";
+      const provName = provinsiList.find((p) => p.id === form.provinsi)?.name || "";
+      const kotaName = kotaList.find((k) => k.id === form.kota)?.name || "";
       const alamatGabung = `${form.alamat}, ${kotaName}, ${provName}`;
 
       const payload = {
@@ -109,7 +104,7 @@ export default function ApplyForm() {
         tahunKendaraan: form.tahunKendaraan,
       };
 
-      const response = await fetch("/api/submit.php", {
+      const response = await fetch("/api/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -141,6 +136,52 @@ export default function ApplyForm() {
 
         const pesan = `Halo, saya ingin mengajukan pinjaman.\n\n📋 DATA PEMOHON:\n• Nama: ${form.namaLengkap}\n• HP: ${form.noHP}\n• Alamat: ${alamatGabung}\n\n🚗 DATA KENDARAAN:\n• Jenis: ${form.jenisKendaraan}\n• Tipe: ${form.tipeKendaraan}\n• Tahun: ${form.tahunKendaraan}`;
 
+        // --- Kirim conversion ke Google Ads (dan GA4 optional) ---
+        // Ganti 'CONVERSION_LABEL' dengan conversion label dari Google Ads
+        const SEND_TO = "AW-17650810624/CONVERSION_LABEL";
+
+        // wrapper promise supaya kita bisa menunggu event_callback atau timeout fallback
+        const sendConversion = () =>
+          new Promise<void>((resolve) => {
+            if (typeof window !== "undefined" && typeof (window as any).gtag === "function") {
+              try {
+                // Google Ads conversion event
+                (window as any).gtag("event", "conversion", {
+                  send_to: SEND_TO,
+                  value: 1.0,
+                  currency: "IDR",
+                  event_callback: () => {
+                    // console.log("gtag conversion callback");
+                    resolve();
+                  },
+                });
+
+                // (Optional) juga kirim event untuk GA4 / analitik
+                try {
+                  (window as any).gtag("event", "generate_lead", {
+                    event_category: "Form",
+                    event_label: "ApplyForm",
+                  });
+                } catch (e) {
+                  // ignore
+                }
+
+                // fallback: kalau callback tidak dipanggil dalam 1200ms, lanjutkan saja
+                setTimeout(() => resolve(), 1200);
+              } catch (e) {
+                // jika error saat memanggil gtag, lanjut
+                setTimeout(() => resolve(), 0);
+              }
+            } else {
+              // kalo gtag belum tersedia, lanjut tanpa menunggu
+              resolve();
+            }
+          });
+
+        // tunggu konversi (callback atau timeout) sebelum membuka WA
+        await sendConversion();
+
+        // buka WhatsApp (setelah conversion dikirim atau timeout)
         window.open(`https://wa.me/${nomorWA}?text=${encodeURIComponent(pesan)}`, "_blank");
 
         // Reset form kalau sukses
@@ -155,12 +196,12 @@ export default function ApplyForm() {
           tahunKendaraan: "",
         });
       }
-
     } catch (err) {
       console.error("Submission error:", err);
       alert("❌ Gagal mengirim data. Periksa koneksi internet Anda.");
     }
   };
+
 
   return (
     <section id="apply" className="relative py-24 bg-gradient-to-br from-ocean-50 to-white">
@@ -326,7 +367,7 @@ export default function ApplyForm() {
               </ul>
               <div className="flex gap-3">
                 <button onClick={() => setShowModal(false)} className="flex-1 py-3 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100">✏️ Koreksi</button>
-                <button onClick={confirmSubmit} className="flex-1 py-3 rounded-lg bg-ocean-600 text-white hover:bg-ocean-700">✅ Konfirmasi & Kirim</button>
+                <button onClick={handleSubmit} className="flex-1 py-3 rounded-lg bg-ocean-600 text-white hover:bg-ocean-700">✅ Konfirmasi & Kirim</button>
               </div>
             </motion.div>
           </motion.div>
