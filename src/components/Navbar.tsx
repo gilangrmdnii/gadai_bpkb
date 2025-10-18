@@ -19,7 +19,7 @@ const Navbar = () => {
   const menuItems = [
     { label: "Beranda", href: "#beranda" },
     { label: "Keunggulan", href: "#keunggulan" },
-    { label: "Ajukan", href: "#pengajuan" },
+    { label: "Ajukan", href: "#apply" },
     { label: "Fitur", href: "#fitur" },
     { label: "Testimoni", href: "#testimoni" },
     { label: "FAQ", href: "#faq" },

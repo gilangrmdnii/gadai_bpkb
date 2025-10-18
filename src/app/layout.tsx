@@ -17,8 +17,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Pinjaman BPKB Cepat Cair & Aman Terpercaya",
-    template: "%s | GadaiBPKB",
+    default: "Garasi BPKB Cepat Cair & Aman Terpercaya",
+    template: "%s | GarasiBPKB",
   },
   description:
     "Proses mudah tanpa BI checking, bunga ringan, cair dalam 1x24 jam. Solusi gadai kendaraan terpercaya untuk kebutuhan dana tunai Anda.",

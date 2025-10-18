@@ -177,7 +177,7 @@ const handleSubmit = async () => {
 
 
   return (
-    <section id="pengajuan" className="relative py-24 bg-gradient-to-br from-ocean-50 to-white">
+    <section id="apply" className="relative py-24 bg-gradient-to-br from-ocean-50 to-white">
       <div className="container mx-auto max-w-6xl px-4 sm:px-6 py-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center justify-items-center">
 
