@@ -4,7 +4,6 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    // URL Google Apps Script Web App
     const GAS_URL =
       "https://script.google.com/macros/s/AKfycbyzHyxiAjyciIyQp0cOPBNKOzvn_9W5JKjpcEQixqwMQ09eyM7YGCmO_neAaWBAIHIh/exec";
 
@@ -14,7 +13,6 @@ export async function POST(req: Request) {
       body: JSON.stringify(body),
     });
 
-    // Cek apakah response Apps Script valid JSON
     let data;
     try {
       data = await res.json();
