@@ -5,13 +5,13 @@ import Image from "next/image";
 
 const Hero = ({ onOpenModal }: { onOpenModal: () => void }) => {
   const items = [
-    { title: "Proses Cepat", desc: "Cair dalam 1x24 jam tanpa ribet." },
-    { title: "Bunga Ringan", desc: "Cicilan fleksibel dengan bunga kompetitif." },
-    { title: "Cair hingga 95%", desc: "Tergantung kondisi aset & kelengkapan dokumen" }
+    { title: "Proses Cepat", desc: "Pencairan jaminan dalam waktu singkat & transparan." },
+    { title: "Bunga Kompetitif", desc: "Angsuran fleksibel dengan perhitungan yang jelas." },
+    { title: "Nilai Hingga 95%", desc: "Tergantung kondisi aset & kelengkapan dokumen." },
   ];
 
   return (
-    <section className=" relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-ocean-700 via-ocean-800 to-ocean-900 text-white px-6">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-ocean-700 via-ocean-800 to-ocean-900 text-white px-6">
       {/* Background Effects */}
       <div className="absolute inset-0">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-ocean-400/30 rounded-full blur-[160px]" />
@@ -31,7 +31,6 @@ const Hero = ({ onOpenModal }: { onOpenModal: () => void }) => {
       {/* Content */}
       <div className="mt-12 relative z-10 grid md:grid-cols-2 gap-10 max-w-6xl mx-auto items-center">
         {/* Left - Text Content */}
-        {/* Left - Text Content */}
         <div className="mt-20 text-center md:text-left">
           <motion.h2
             initial={{ y: 40, opacity: 0 }}
@@ -39,7 +38,7 @@ const Hero = ({ onOpenModal }: { onOpenModal: () => void }) => {
             transition={{ duration: 0.8 }}
             className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight"
           >
-             Pinjaman BPKB Cepat Cair & Aman Terpercaya
+            Layanan Gadai BPKB Aman & Terpercaya
           </motion.h2>
 
           <motion.p
@@ -48,8 +47,8 @@ const Hero = ({ onOpenModal }: { onOpenModal: () => void }) => {
             transition={{ duration: 1 }}
             className="mt-4 text-base sm:text-lg text-blue-100 max-w-md mx-auto md:mx-0"
           >
-            Proses mudah tanpa BI checking, bunga ringan, cair dalam 1x24 jam.
-            Solusi gadai kendaraan terpercaya untuk kebutuhan dana tunai Anda.
+            Proses cepat dan transparan tanpa ribet. 
+            Solusi keuangan berbasis jaminan kendaraan untuk kebutuhan Anda.
           </motion.p>
 
           <motion.div
@@ -84,7 +83,7 @@ const Hero = ({ onOpenModal }: { onOpenModal: () => void }) => {
           >
             <Image
               src="/images/gadeterdekatt.png"
-              alt="Gadai BPKB Cepat"
+              alt="Layanan Gadai BPKB"
               width={500}
               height={400}
               className="w-full h-auto drop-shadow-2xl rounded-2xl"

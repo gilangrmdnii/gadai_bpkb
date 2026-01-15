@@ -17,6 +17,7 @@ export default function ApplyFormFields({ compact = false }: { compact?: boolean
     const [errors, setErrors] = useState<{ [k: string]: string }>({});
     const [provinsiList, setProvinsiList] = useState<any[]>([]);
     const [kotaList, setKotaList] = useState<any[]>([]);
+    const [isFormValid, setIsFormValid] = useState(false);
 
     useEffect(() => {
         fetch("https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json")
@@ -32,6 +33,22 @@ export default function ApplyFormFields({ compact = false }: { compact?: boolean
             .then(setKotaList)
             .catch(console.error);
     }, [form.provinsi]);
+
+    useEffect(() => {
+        const allFilled =
+            form.namaLengkap.trim() &&
+            form.noHP.trim() &&
+            form.alamat.trim() &&
+            form.provinsi.trim() &&
+            form.kota.trim() &&
+            form.jenisKendaraan.trim() &&
+            form.tipeKendaraan.trim() &&
+            form.tahunKendaraan.trim();
+
+        const phoneValid = /^\+?\d{9,15}$/.test(form.noHP.replace(/\s|-/g, ""));
+
+        setIsFormValid(Boolean(allFilled && phoneValid));
+    }, [form]);
 
     const jenisKendaraanOptions = [
         { value: "", label: "Pilih Jenis Kendaraan" },
@@ -57,7 +74,13 @@ export default function ApplyFormFields({ compact = false }: { compact?: boolean
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         let { name, value } = e.target;
         if (name === "noHP") value = value.replace(/\D/g, "");
-        setForm({ ...form, [name]: value });
+
+        // Reset tahun kendaraan jika jenis kendaraan berubah
+        if (name === "jenisKendaraan") {
+            setForm({ ...form, [name]: value, tahunKendaraan: "" });
+        } else {
+            setForm({ ...form, [name]: value });
+        }
     };
 
     const handleSubmit = async () => {
@@ -94,7 +117,7 @@ export default function ApplyFormFields({ compact = false }: { compact?: boolean
                 tahunKendaraan: form.tahunKendaraan,
             };
 
-            const response = await fetch("/api/submit", {
+            const response = await fetch("/api/submit.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
@@ -114,15 +137,6 @@ export default function ApplyFormFields({ compact = false }: { compact?: boolean
                     currency: 'IDR',
                 });
             }
-
-            // === WhatsApp Redirect ===
-            let nomorWA = form.noHP.replace(/\D/g, "");
-            if (nomorWA.startsWith("0")) nomorWA = "62" + nomorWA.substring(1);
-            else if (!nomorWA.startsWith("62")) nomorWA = "62" + nomorWA;
-
-            const pesanWA = `Halo, saya ingin mengajukan pinjaman.\n\n📋 DATA PEMOHON:\n• Nama: ${form.namaLengkap}\n• HP: ${form.noHP}\n• Alamat: ${alamatGabung}\n\n🚗 DATA KENDARAAN:\n• Jenis: ${form.jenisKendaraan}\n• Tipe: ${form.tipeKendaraan}\n• Tahun: ${form.tahunKendaraan}`;
-
-            window.open(`https://wa.me/${nomorWA}?text=${encodeURIComponent(pesanWA)}`, "_blank");
 
             // Reset form
             setForm({
@@ -162,13 +176,18 @@ export default function ApplyFormFields({ compact = false }: { compact?: boolean
                 <SelectField icon={<MapPin />} name="provinsi" options={[{ value: "", label: "Pilih Provinsi" }, ...provinsiList.map(p => ({ value: p.id, label: p.name }))]} value={form.provinsi} onChange={handleChange} />
                 <SelectField icon={<MapPin />} name="kota" options={[{ value: "", label: "Pilih Kota" }, ...kotaList.map(k => ({ value: k.id, label: k.name }))]} value={form.kota} onChange={handleChange} />
                 <SelectField icon={<Car />} name="jenisKendaraan" options={jenisKendaraanOptions} value={form.jenisKendaraan} onChange={handleChange} />
-                <InputField icon={<FileText />} name="tipeKendaraan" placeholder="Tipe Kendaraan" value={form.tipeKendaraan} onChange={handleChange} />
+                <InputField icon={<FileText />} name="tipeKendaraan" placeholder="Merek & Tipe Kendaraan" value={form.tipeKendaraan} onChange={handleChange} />
                 <SelectField icon={<Calendar />} name="tahunKendaraan" options={tahunKendaraanOptions} value={form.tahunKendaraan} onChange={handleChange} />
             </div>
 
             <button
                 onClick={handleSubmit}
-                className="mt-8 w-full bg-gradient-to-r from-ocean-600 to-ocean-700 text-white py-4 rounded-xl font-semibold shadow-md hover:scale-[1.02] transition"
+                disabled={!isFormValid}
+                className={`mt-8 w-full py-4 rounded-xl font-semibold shadow-md transition 
+                        s${isFormValid
+                        ? "bg-gradient-to-r from-ocean-600 to-ocean-700 text-white hover:scale-[1.02]"
+                        : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    }`}
             >
                 🚀 Ajukan
             </button>

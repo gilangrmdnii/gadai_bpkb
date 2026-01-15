@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useMemo } from "react";
-import { User, Phone, Car, Calendar, FileText, MapPin } from "lucide-react";
+import { User, Phone, Car, Calendar, FileText, MapPin, CheckCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function ApplyForm() {
@@ -17,8 +17,10 @@ export default function ApplyForm() {
 
   const [errors, setErrors] = useState<{ [k: string]: string }>({});
   const [showModal, setShowModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [provinsiList, setProvinsiList] = useState<any[]>([]);
   const [kotaList, setKotaList] = useState<any[]>([]);
+  const [isFormValid, setIsFormValid] = useState(false);
 
   // Ambil daftar provinsi
   useEffect(() => {
@@ -36,6 +38,23 @@ export default function ApplyForm() {
       .then(setKotaList)
       .catch(console.error);
   }, [form.provinsi]);
+
+  useEffect(() => {
+    const allFilled =
+      form.namaLengkap.trim() &&
+      form.noHP.trim() &&
+      form.alamat.trim() &&
+      form.provinsi.trim() &&
+      form.kota.trim() &&
+      form.jenisKendaraan.trim() &&
+      form.tipeKendaraan.trim() &&
+      form.tahunKendaraan.trim();
+
+    const phoneValid = /^\+?\d{9,15}$/.test(form.noHP.replace(/\s|-/g, ""));
+
+    setIsFormValid(Boolean(allFilled && phoneValid));
+  }, [form]);
+
 
   const jenisKendaraanOptions = [
     { value: "", label: "Pilih Jenis Kendaraan" },
@@ -66,7 +85,12 @@ export default function ApplyForm() {
       value = value.replace(/\D/g, "");
     }
 
-    setForm({ ...form, [name]: value });
+    // Reset tahun kendaraan jika jenis kendaraan berubah
+    if (name === "jenisKendaraan") {
+      setForm({ ...form, [name]: value, tahunKendaraan: "" });
+    } else {
+      setForm({ ...form, [name]: value });
+    }
   };
 
 
@@ -79,7 +103,7 @@ export default function ApplyForm() {
     if (!form.provinsi.trim()) nextErrors.provinsi = "Provinsi wajib dipilih";
     if (!form.kota.trim()) nextErrors.kota = "Kota wajib dipilih";
     if (!form.jenisKendaraan.trim()) nextErrors.jenisKendaraan = "Jenis kendaraan wajib dipilih";
-    if (!form.tipeKendaraan.trim()) nextErrors.tipeKendaraan = "Tipe kendaraan wajib diisi";
+    if (!form.tipeKendaraan.trim()) nextErrors.tipeKendaraan = "Merek & Tipe kendaraan wajib diisi";
     if (!form.tahunKendaraan.trim() || isNaN(Number(form.tahunKendaraan)))
       nextErrors.tahunKendaraan = "Tahun kendaraan tidak valid";
 
@@ -96,84 +120,90 @@ export default function ApplyForm() {
     }
   };
 
-const handleSubmit = async () => {
-  setShowModal(false);
+  const handleSubmit = async () => {
+    setShowModal(false);
 
-  try {
-    const provName = provinsiList.find((p) => p.id === form.provinsi)?.name || "";
-    const kotaName = kotaList.find((k) => k.id === form.kota)?.name || "";
-    const alamatGabung = `${form.alamat}, ${kotaName}, ${provName}`;
+    try {
+      const provName = provinsiList.find((p) => p.id === form.provinsi)?.name || "";
+      const kotaName = kotaList.find((k) => k.id === form.kota)?.name || "";
+      const alamatGabung = `${form.alamat}, ${kotaName}, ${provName}`;
 
-    const payload = {
-      namaLengkap: form.namaLengkap,
-      noHP: form.noHP,
-      alamat: alamatGabung,
-      jenisKendaraan: form.jenisKendaraan,
-      tipeKendaraan: form.tipeKendaraan,
-      tahunKendaraan: form.tahunKendaraan,
-    };
+      const payload = {
+        namaLengkap: form.namaLengkap,
+        noHP: form.noHP,
+        alamat: alamatGabung,
+        jenisKendaraan: form.jenisKendaraan,
+        tipeKendaraan: form.tipeKendaraan,
+        tahunKendaraan: form.tahunKendaraan,
+      };
 
-    const response = await fetch("/api/submit", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+      const response = await fetch("/api/submit.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
-    const result = await response.json();
+      const result = await response.json();
 
-    alert(result.message || "Terjadi kesalahan");
+      if (!result.success) {
+        alert(result.message || "Terjadi kesalahan");
+        return;
+      }
 
-    if (result.success) {
-      // --- Kirim conversion ke Google Ads (dan GA4 optional) ---
-      const SEND_TO = "AW-17650810624/CONVERSION_LABEL";
+      if (result.success) {
+        // --- Kirim conversion ke Google Ads (dan GA4 optional) ---
+        const SEND_TO = "AW-17650810624/CONVERSION_LABEL";
 
-      const sendConversion = () =>
-        new Promise<void>((resolve) => {
-          if (typeof window !== "undefined" && typeof (window as any).gtag === "function") {
-            try {
-              (window as any).gtag("event", "conversion", {
-                send_to: SEND_TO,
-                value: 1.0,
-                currency: "IDR",
-                event_callback: () => resolve(),
-              });
-
-              // GA4 event optional
+        const sendConversion = () =>
+          new Promise<void>((resolve) => {
+            if (typeof window !== "undefined" && typeof (window as any).gtag === "function") {
               try {
-                (window as any).gtag("event", "generate_lead", {
-                  event_category: "Form",
-                  event_label: "ApplyForm",
+                (window as any).gtag("event", "conversion", {
+                  send_to: SEND_TO,
+                  value: 1.0,
+                  currency: "IDR",
+                  event_callback: () => resolve(),
                 });
-              } catch (e) {}
 
-              setTimeout(() => resolve(), 1200); // fallback
-            } catch (e) {
-              setTimeout(() => resolve(), 0);
+                // GA4 event optional
+                try {
+                  (window as any).gtag("event", "generate_lead", {
+                    event_category: "Form",
+                    event_label: "ApplyForm",
+                  });
+                } catch (e) { }
+
+                setTimeout(() => resolve(), 1200); // fallback
+              } catch (e) {
+                setTimeout(() => resolve(), 0);
+              }
+            } else {
+              resolve();
             }
-          } else {
-            resolve();
-          }
+          });
+
+        await sendConversion();
+
+        // Reset form
+        setForm({
+          namaLengkap: "",
+          noHP: "",
+          alamat: "",
+          provinsi: "",
+          kota: "",
+          jenisKendaraan: "",
+          tipeKendaraan: "",
+          tahunKendaraan: "",
         });
 
-      await sendConversion();
-
-      // Reset form
-      setForm({
-        namaLengkap: "",
-        noHP: "",
-        alamat: "",
-        provinsi: "",
-        kota: "",
-        jenisKendaraan: "",
-        tipeKendaraan: "",
-        tahunKendaraan: "",
-      });
+        // Tampilkan modal sukses
+        setShowSuccessModal(true);
+      }
+    } catch (err) {
+      console.error("Submission error:", err);
+      alert("❌ Gagal mengirim data. Periksa koneksi internet Anda.");
     }
-  } catch (err) {
-    console.error("Submission error:", err);
-    alert("❌ Gagal mengirim data. Periksa koneksi internet Anda.");
-  }
-};
+  };
 
 
   return (
@@ -273,7 +303,7 @@ const handleSubmit = async () => {
               <InputField
                 icon={<FileText />}
                 name="tipeKendaraan"
-                placeholder="Tipe Kendaraan"
+                placeholder="Merek & Tipe Kendaraan"
                 value={form.tipeKendaraan}
                 onChange={handleChange}
                 error={errors.tipeKendaraan}
@@ -291,7 +321,12 @@ const handleSubmit = async () => {
             {/* Tombol Submit */}
             <button
               onClick={handleValidateAndShowModal}
-              className="mt-8 w-full bg-gradient-to-r from-ocean-600 to-ocean-700 text-white py-4 rounded-xl font-semibold shadow-md hover:scale-[1.02] transition"
+              disabled={!isFormValid}
+              className={`mt-8 w-full py-4 rounded-xl font-semibold shadow-md transition 
+    ${isFormValid
+                  ? "bg-gradient-to-r from-ocean-600 to-ocean-700 text-white hover:scale-[1.02]"
+                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                }`}
             >
               🚀 Ajukan
             </button>
@@ -342,6 +377,52 @@ const handleSubmit = async () => {
                 <button onClick={() => setShowModal(false)} className="flex-1 py-3 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100">✏️ Koreksi</button>
                 <button onClick={handleSubmit} className="flex-1 py-3 rounded-lg bg-ocean-600 text-white hover:bg-ocean-700">✅ Konfirmasi & Kirim</button>
               </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Modal Sukses / Terima Kasih */}
+      <AnimatePresence>
+        {showSuccessModal && (
+          <motion.div
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="bg-white rounded-2xl shadow-xl max-w-md w-full p-8 text-center"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+            >
+              {/* Icon Sukses */}
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                className="mx-auto w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6"
+              >
+                <CheckCircle className="w-12 h-12 text-green-500" />
+              </motion.div>
+
+              <h4 className="text-2xl font-bold text-ocean-700 mb-3">
+                Terima Kasih!
+              </h4>
+              <p className="text-gray-600 mb-2">
+                Pengajuan pinjaman Anda telah berhasil dikirim.
+              </p>
+              <p className="text-gray-500 text-sm mb-6">
+                Tim kami akan segera menghubungi Anda melalui WhatsApp dalam waktu 1x24 jam untuk proses selanjutnya.
+              </p>
+
+              <button
+                onClick={() => setShowSuccessModal(false)}
+                className="w-full py-3 rounded-xl bg-gradient-to-r from-ocean-600 to-ocean-700 text-white font-semibold hover:scale-[1.02] transition shadow-md"
+              >
+                Tutup
+              </button>
             </motion.div>
           </motion.div>
         )}

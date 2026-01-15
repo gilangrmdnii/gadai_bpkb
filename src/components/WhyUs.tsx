@@ -6,38 +6,37 @@ import Reveal from "./Reveal";
 const WhyUs = () => {
   const items = [
     {
-      title: "Proses Cepat & Cair Dalam 1x24 Jam",
-      desc: "Ajukan pinjaman BPKB kendaraan Anda dan cairkan dana hanya dalam 1x24 jam tanpa ribet, transparan, dan aman.",
-      icon: <Timer className="w-8 h-8 text-ocean-600" />
+      title: "Proses Cepat & Mudah",
+      desc: "Ajukan gadai BPKB kendaraan Anda dengan proses cepat, transparan, dan aman tanpa prosedur rumit.",
+      icon: <Timer className="w-8 h-8 text-ocean-600" />,
     },
     {
-      title: "Bunga Ringan & Cicilan Fleksibel",
-      desc: "Nikmati cicilan gadai BPKB dengan bunga kompetitif dan tenor yang dapat disesuaikan dengan kebutuhan finansial Anda.",
-      icon: <HandCoins className="w-8 h-8 text-ocean-600" />
+      title: "Perhitungan Jelas & Fleksibel",
+      desc: "Nikmati tenor fleksibel dengan bunga kompetitif sesuai ketentuan, tanpa biaya tersembunyi.",
+      icon: <HandCoins className="w-8 h-8 text-ocean-600" />,
     },
     {
       title: "Aman, Legal & Terpercaya",
-      desc: "Kami Agensi resmi mitra leasing terpercaya, Layanan gadai kendaraan yang memastikan keamanan, legalitas dan  kenyamanan setiap transaksi.",
-      icon: <ShieldCheck className="w-8 h-8 text-ocean-600" />
+      desc: "Kami merupakan mitra resmi lembaga keuangan yang berizin, menjamin keamanan dan kenyamanan transaksi Anda.",
+      icon: <ShieldCheck className="w-8 h-8 text-ocean-600" />,
     },
     {
-      title: "Jangkauan Luas Seluruh Indonesia",
-      desc: "Kami melayani gadai BPKB untuk seluruh wilayah Indonesia dengan proses cepat dan terpercaya.",
-      icon: <Globe className="w-8 h-8 text-ocean-600" />
+      title: "Layanan Nasional",
+      desc: "Kami melayani proses gadai BPKB kendaraan di berbagai wilayah Indonesia secara profesional dan terpercaya.",
+      icon: <Globe className="w-8 h-8 text-ocean-600" />,
     },
   ];
 
   return (
     <section id="keunggulan" className="relative py-20 bg-gradient-to-b from-white to-gray-50">
       <div className="container relative z-10">
-
         {/* Section Title */}
         <div className="text-center max-w-2xl mx-auto mb-14">
           <h3 className="text-3xl md:text-4xl font-extrabold text-gray-800 leading-tight">
             Kenapa <span className="text-ocean-600">Memilih Layanan Gadai BPKB Kami?</span>
           </h3>
           <p className="mt-3 text-gray-600">
-            Kami memberikan layanan gadai BPKB cepat cair, bunga ringan, aman, dan terpercaya untuk kebutuhan finansial Anda.
+            Kami memberikan solusi gadai kendaraan dengan proses cepat, aman, dan transparan untuk kebutuhan finansial Anda.
           </p>
         </div>
 
